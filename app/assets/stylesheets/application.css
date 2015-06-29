@@ -1,0 +1,163 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+
+ */
+
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700,300);
+
+body {
+    font-family: Lato, sans-serif;
+    background-color: #424242; /*#171717;*/
+    color: #FFF;
+}
+
+
+
+.aside {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    z-index: 600;
+    width: 250px;
+    background-color: #000;
+
+    background-color: #1B1B1B;
+    border-right: 1px solid #292929;
+    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+
+    overflow-y: auto;
+}
+
+
+#main {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+
+    overflow: auto;
+
+    /*background-color: #171717: /* url("//static.wallhaven.cc/images/layout/bg-dark-grain.png") repeat scroll left top*/
+}
+
+.aside ~ #main {
+    left: 250px;
+}
+
+#wallpaper {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: block;
+    margin: auto;
+    max-width: 95%;
+    max-height: 95%;
+    -moz-user-select: none;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+    cursor: zoom-in;
+}
+
+.full #wallpaper {
+    max-height: none;
+    max-width: none;
+    cursor: zoom-out;
+}
+
+#main.full {
+    padding: 20px;
+}
+
+.wallthumb {
+    position: relative;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+.wallthumb > div {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 0 !important;
+
+    color: #FFF;
+    text-align: center;
+}
+
+.wallthumb:hover > div {
+    visibility: visible;
+}
+
+.wallthumb .fa-star {
+    color: yellow;
+}
+
+.taglist, .datalist {
+    border-top: 1px solid red;
+    padding: 10px 0;
+}
+.taglist h2, .datalist h2 {
+    margin: 0px 0px 1em;
+    padding: 0px;
+    font-size: 0.85em;
+    line-height: 1.52941em;
+    text-transform: uppercase;
+    border: 0px none;
+    font-weight: bold;
+    color: #8CC;
+}
+
+.taglist ul a {
+    display: block;
+    color: #FFF;
+    text-decoration: none;
+    padding: 5px;
+}
+.taglist ul a:hover {
+    background-color: rgba(40, 40, 40, 0.5);
+}
+
+.taglist ul a.character {
+    color: #008000;
+}
+
+.taglist ul a.title {
+    color: #006699;
+}
+
+.taglist a>span {
+    float: right;
+}
+
+.datalist dl dt {
+    float: left;
+    text-align: right;
+    color: #85AAAF;
+    display: inline-block;
+    width: 80px;
+    padding-right: 10px;
+
+}
+
+.datalist dl dd {
+    display: block;
+    margin-left: 10px;
+}

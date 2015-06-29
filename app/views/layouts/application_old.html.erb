@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>imeji</title>
+  <%= stylesheet_link_tag    'knacss', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', media: 'all' %>
+
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <header id="header" role="banner">
+    <%= link_to 'imeji', root_path, 'class' => 'brand' %>
+
+
+    <%= form_tag :search, :method => 'post' do %>
+        <div class="main-input">
+        <%= text_field_tag :tags, params[:tags] %>
+
+        <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+
+        </div>
+
+        <div class="adv-input">
+          <p>Resolution : <%= text_field_tag :width, params[:width], {size: 4} %> x <%= text_field_tag :height, params[:height], {size: 4} %> <a href="#">auto</a></p>
+
+          <%= radio_button_tag(:x, 'up') %>
+          <%= label_tag(:x_up, '>= x') %>
+          <%= radio_button_tag(:x, 'down') %>
+          <%= label_tag(:x_down, '<= x') %>
+
+          <%= radio_button_tag(:y, 'up') %>
+          <%= label_tag(:y_up, '>= y') %>
+          <%= radio_button_tag(:y, 'down') %>
+          <%= label_tag(:y_down, '<= y') %>
+
+          <hr>
+
+          <p>Category
+
+            <%= hidden_field_tag(:category_GENERAL, '0') %>
+            <%= check_box_tag(:category_GENERAL, '1', (not params.has_key?(:category_GENERAL) or params[:category_GENERAL] == '1')) %>
+            <%= label_tag(:category_GENERAL, 'General') %>
+
+            <%= hidden_field_tag(:category_ANIME, '0') %>
+            <%= check_box_tag(:category_ANIME, '1', (not params.has_key?(:category_ANIME) or params[:category_ANIME] == '1')) %>
+            <%= label_tag(:category_ANIME, 'Anime') %>
+
+          </p>
+
+          <hr>
+
+          <p>Purity :
+
+            <%= hidden_field_tag(:purity_SFW, '0') %>
+            <%= check_box_tag(:purity_SFW, '1', (not params.has_key?(:purity_SFW) or params[:purity_SFW] == '1')) %>
+            <%= label_tag(:purity_SFW, 'SFW') %>
+
+            <%= hidden_field_tag(:purity_SKETCHY, '0') %>
+            <%= check_box_tag(:purity_SKETCHY, '1', (not params.has_key?(:purity_SKETCHY) or params[:purity_SKETCHY] == '1')) %>
+            <%= label_tag(:purity_SFW, 'Sketchy') %>
+
+            <%= hidden_field_tag(:purity_NSFW, '0') %>
+            <%= check_box_tag(:purity_NSFW, '1') %>
+            <%= label_tag(:purity_SFW, 'NSFW') %>
+
+          </p>
+
+          <hr>
+
+          <p>Color : <%= text_field_tag :color, params[:color], { size: 7 } %></p>
+        </div>
+    <% end %>
+  </header>
+
+  <div id="search-adv" style="display: none">
+    <%= form_tag :search, :method => 'post' do %>
+        <p>tags</p>
+        <%= text_field_tag :tags, params[:tags] %>
+
+        <hr>
+
+
+
+        <p style="text-align: right"><%= submit_tag 'Search', :name => nil %></p>
+
+
+        <%= debug(params) %>
+    <% end %>
+
+
+  </div>
+
+  <%= yield %>
+
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+</body>
+</html>

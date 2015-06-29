@@ -1,0 +1,40 @@
+// Place all the styles related to the wallpapers controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.wallpaper-dl-btn {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 999;
+  
+  .btn-large {
+    background-color: #c62828;
+
+    opacity: 0.4;
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+
+.color_palette {
+  display: flex;
+  flex-flow: row wrap;
+
+  a {
+    display: inline-block;
+    width: 20%;
+    border: 1px solid #000000;
+    border-left-width: 0;
+    height: 25px;
+
+    &:first-child {
+      border-left-width: 1px;
+    }
+  }
+
+
+}

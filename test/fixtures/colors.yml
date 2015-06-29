@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  red: MyString
+  green: MyString
+  blue: MyString
+  percent: 1
+  wallpaper_id: 
+
+two:
+  red: MyString
+  green: MyString
+  blue: MyString
+  percent: 1
+  wallpaper_id: 
