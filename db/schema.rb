@@ -26,15 +26,22 @@ ActiveRecord::Schema.define(version: 20150625193243) do
   add_index "colors", ["wallpaper_id"], name: "index_colors_on_wallpaper_id", using: :btree
 
   create_table "tags", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "name",                    null: false
+    t.integer  "type",        default: 0, null: false
+    t.integer  "alias_of_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
-  create_table "tags_wallpapers", force: true do |t|
+  add_index "tags", ["alias_of_id"], name: "index_tags_on_alias_of_id", using: :btree
+
+  create_table "tags_wallpapers", id: false, force: true do |t|
     t.integer "tag_id",       null: false
     t.integer "wallpaper_id", null: false
   end
+
+  add_index "tags_wallpapers", ["tag_id"], name: "index_tags_wallpapers_on_tag_id", using: :btree
+  add_index "tags_wallpapers", ["wallpaper_id"], name: "index_tags_wallpapers_on_wallpaper_id", using: :btree
 
   create_table "wallpapers", force: true do |t|
     t.string   "filehash"

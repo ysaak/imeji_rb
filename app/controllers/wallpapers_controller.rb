@@ -6,6 +6,10 @@ class WallpapersController < ApplicationController
 
   def show
     @wall = Wallpaper.find(params[:id])
+
+
+    tagIds = @wall.tags.ids
+    @tagCount = Tag.wallpapers_count(tagIds)
   end
 
   def search
@@ -83,7 +87,40 @@ class WallpapersController < ApplicationController
         qParams[:qBlue] = urlQuery[:color][2]
       end
 
-      @q = urlQuery
+
+      if (not urlQuery[:tags][:related].blank?) or (not urlQuery[:tags][:exclude].blank?)
+
+        includeTagIds = []
+        excludeTagIds = []
+
+        tagQuery = 'name IN (?) OR EXISTS (SELECT 1 FROM tags alias WHERE tags.alias_of_id = alias.id AND alias.name IN (?)) OR EXISTS (SELECT 1 FROM tags alias WHERE alias.alias_of_id = tags.id AND alias.name IN (?))'
+
+        if not urlQuery[:tags][:related].blank?
+          #includeTagQuery = 'name IN (?) OR EXISTS (SELECT 1 FROM tags alias WHERE tags.alias_of_id = alias.id AND alias.name IN (?)) OR EXISTS (SELECT 1 FROM tags alias WHERE alias.alias_of_id = tags.id AND alias.name IN (?))'
+          includeTagIds = Tag.where(tagQuery, urlQuery[:tags][:related], urlQuery[:tags][:related], urlQuery[:tags][:related]).ids
+
+          includeTagIds << 0 if includeTagIds.blank?
+        end
+
+        if not urlQuery[:tags][:exclude].blank?
+          #excludeTagQuery = 'name NOT IN (?) AND NOT EXISTS (SELECT 1 FROM tags alias where alias.alias_of_id = tags.id AND alias.name IN (?)) AND NOT EXISTS (SELECT 1 FROM tags alias where tags.alias_of_id = alias.id AND alias.name IN (?))'
+          excludeTagIds =  Tag.where(tagQuery, urlQuery[:tags][:exclude], urlQuery[:tags][:exclude], urlQuery[:tags][:exclude]).ids
+
+          excludeTagIds << 0 if excludeTagIds.blank?
+        end
+
+        if not includeTagIds.blank?
+          joinQuery << 'INNER JOIN tags_wallpapers ON wallpaper_id = wallpapers.id'
+          sqlQuery << 'tag_id IN (:qIncTagIds)'
+          qParams[:qIncTagIds] = includeTagIds
+        end
+
+        if not excludeTagIds.blank?
+          sqlQuery << 'not exists (select 1 from tags_wallpapers tw2 where tw2.wallpaper_id = wallpapers.id and tag_id in (:qExcTagIds))'
+          qParams[:qExcTagIds] = excludeTagIds
+        end
+
+      end
 
 
       if urlQuery.has_key? :limit
@@ -97,7 +134,7 @@ class WallpapersController < ApplicationController
       end
     else
       if urlQuery.has_key? :limit
-        @limit = @urlQuery[:limit]
+        @limit = urlQuery[:limit]
       end
 
       @walls = Wallpaper.all.limit(@limit).offset( (page-1) * @limit )
