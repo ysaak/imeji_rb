@@ -1,4 +1,4 @@
-<aside class="aside flex-container-v pas">
+<aside id="wall-nav" class="flex-container-v pas">
 
   <section class="taglist">
     <h2>Colors</h2>
@@ -39,15 +39,12 @@
       <dd><%= @wall.category %></dd>
 
       <dt>Added</dt>
-      <dd>3 weeks ago</dd>
-
-      <dt>Ajout</dt>
       <dd><%= time_ago_in_words(@wall.created_at) %> ago</dd>
     </dl>
   </section>
 </aside>
 
-<div id="main" role="main">
+<div id="wall-display">
   <div class="fit">
     <%= wallpaper_image_tag(@wall, id: 'wallpaper') %>
   </div>

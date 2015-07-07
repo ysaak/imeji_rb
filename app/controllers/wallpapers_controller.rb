@@ -1,7 +1,7 @@
 class WallpapersController < ApplicationController
 
   def index
-    @walls = Wallpaper.all.limit(20)
+    @walls = Wallpaper.where('purity = :purity', :purity => 'SFW').order('rand()').limit(12)
   end
 
   def show
@@ -10,78 +10,102 @@ class WallpapersController < ApplicationController
 
   def search
 
+    @queryString = params[:q]
+    if params.has_key? :color
+      @queryString = "color:#{params[:color]}"
+    end
+
+    urlQuery = QueryParser.new.parse_query(@queryString)
+
     # Init vars
-    query = ''
-    joinQuery = ''
+    sqlQuery = []
+    joinQuery = []
     qParams = {}
+    @limit = 20
+    page = 1
 
-
-    # Width
-    if params.has_key? :width
-
-      if query.length > 0
-        query += ' AND '
+    if params.has_key? :page
+      page = params[:page].to_i
+      if page <= 0
+        page = 1
       end
-
-      if params[:x].nil? or params[:x] == 'up'
-        operator = '>='
-      else
-        operator = '<='
-      end
-
-      query += 'width ' + operator + ' :qWidth'
-      qParams[:qWidth] = params[:width]
     end
 
-    # Height
-    if params.has_key? :height
+    if urlQuery[:tag_count] > 0
 
-      if query.length > 0
-        query += ' AND '
+
+      [:width, :height, :ratio, :score].each do |part|
+
+        if urlQuery.has_key? part
+
+          query = part.to_s + ' ';
+          case urlQuery[part][0]
+            when :lte
+              query += '<='
+            when :lt
+              query += '<'
+            when :gte
+              query += '>='
+            when :gt
+              query += '>'
+            else
+              query += '='
+          end
+
+          query += ' :' + part.to_s
+          sqlQuery << query
+          qParams[part] = urlQuery[part][1]
+        end
       end
 
-      if params[:y].nil? or params[:y] == 'up'
-        operator = '>='
+
+      [:purity, :purity_negated, :ext, :ext_negated].each do |part|
+        if urlQuery.has_key? part
+          if part.to_s.end_with? 'negated'
+            key = part.to_s.partition('_')[0]
+            op = '<>'
+          else
+            key = part.to_s
+            op = '='
+          end
+
+          sqlQuery << "#{key} #{op} :#{part.to_s}"
+          qParams[part] = urlQuery[part]
+        end
+      end
+
+      if urlQuery.has_key? :color
+        joinQuery << 'INNER JOIN colors ON wallpapers.id = colors.wallpaper_id'
+        sqlQuery << 'SQRT( POW( red - :qRed, 2 ) + POW( green - :qGreen, 2 ) + POW( blue - :qBlue, 2 ) ) <= 20'
+
+        qParams[:qRed] = urlQuery[:color][0]
+        qParams[:qGreen] = urlQuery[:color][1]
+        qParams[:qBlue] = urlQuery[:color][2]
+      end
+
+      @q = urlQuery
+
+
+      if urlQuery.has_key? :limit
+        @limit = urlQuery[:limit]
+      end
+
+      if joinQuery.length > 0
+        @walls = Wallpaper.joins(joinQuery.join(' ')).distinct.where(sqlQuery.join(' AND '), qParams).limit(@limit).offset( (page-1) * @limit )
       else
-        operator = '<='
+        @walls = Wallpaper.where(sqlQuery.join(' AND '), qParams).limit(@limit).offset( (page-1) * @limit )
       end
-
-      query += 'height ' + operator + ' :qHeight'
-      qParams[:qHeight] = params[:height]
-    end
-
-    # Colors
-    if params.has_key? :color and /^((#?\h{6})|(#?\h{3}))$/ =~ params[:color]
-
-      color = params[:color]
-      if color[0] == '#'
-        color = color[1..-1]
-      end
-
-      if color.length == 3
-        qParams[:qRed] = (color[0]*2).hex.to_s
-        qParams[:qGreen] = (color[1]*2).hex.to_s
-        qParams[:qBlue] = (color[2]*2).hex.to_s
-      else
-        qParams[:qRed] = (color[0..1]).hex.to_s
-        qParams[:qGreen] = (color[2..3]).hex.to_s
-        qParams[:qBlue] = (color[4..5]).hex.to_s
-      end
-
-      joinQuery += ' INNER JOIN colors ON wallpapers.id = colors.wallpaper_id '
-
-      if query.length > 0
-        query += ' AND '
-      end
-      query += 'SQRT( POW( red - :qRed, 2 ) + POW( green - :qGreen, 2 ) + POW( blue - :qBlue, 2 ) ) <= 20'
-
-    end
-
-    if joinQuery.length > 0
-      @walls = Wallpaper.joins(joinQuery).distinct.where(query, qParams)
     else
-      @walls = Wallpaper.where(query, qParams)
+      if urlQuery.has_key? :limit
+        @limit = @urlQuery[:limit]
+      end
+
+      @walls = Wallpaper.all.limit(@limit).offset( (page-1) * @limit )
     end
 
+    if request.xhr?
+      render jbuilder: @walls;
+      return
+    end
   end
 end

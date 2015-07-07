@@ -1,7 +1,30 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<% if not @walls.nil? %>
+<div id="wall-lister" class="flex-container" style="justify-content: space-around;">
 
+  <% @walls.each do |wall| %>
+    <a href="<%= wallpaper_path(wall) %>" class="wallthumb">
+      <%= wallpaper_thumb_tag(wall) %>
+      <div class="grid-4-1">
+        <span><%= wall.width %> x <%= wall.height %></span>
+        <span class="txtcenter"><i class="fa fa-star"></i></span>
+      </div>
+    </a>
+  <% end %>
 
-<% @walls.each do |wall| %>
-    <%= link_to wallpaper_thumb_tag(wall), wallpaper_path(wall) %>
+  <div id="search-result-tpl" style="display: none">
+    <a href="{{path}}" class="wallthumb">
+      <img src="{{thumb_path}}">
+      <div class="grid-4-1">
+        <span>{{width}} x {{height}}</span>
+        <span class="txtcenter"><i class="fa fa-star"></i></span>
+      </div>
+    </a>
+  </div>
+</div>
+<script type="text/javascript">
+var searchUrl = '<%= url_for :search %>';
+var searchQuery = "<%= @queryString %>";
+</script>
+<% else %>
+    PAs de wallpaper trouve !!
 <% end %>

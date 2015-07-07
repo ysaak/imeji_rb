@@ -1,15 +1,19 @@
 module WallpapersHelper
 
   def wallpaper_image_tag(wall, options={})
-    return  image_tag 'walls/' + wall.id.to_s + wall.ext, options
+    return  image_tag 'walls/' + wall.id.to_s + '.' + wall.ext, options
   end
 
   def wallpaper_thumb_tag(wall, options={})
     return  image_tag 'thumbs/' + wall.id.to_s + '.png', options
   end
 
+  def wallpaper_thumb_path(wall)
+    'thumbs/' + wall.id.to_s + '.png'
+  end
+
   def wallpaper_dl_path(wall)
-    return '/images/walls/' + wall.id.to_s + wall.ext
+    return '/images/walls/' + wall.id.to_s + '.' + wall.ext
   end
 
   def color_link(color)

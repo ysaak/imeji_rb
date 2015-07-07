@@ -19,44 +19,45 @@
 
 body {
     font-family: Lato, sans-serif;
-    background-color: #424242; /*#171717;*/
-    color: #FFF;
+    /*background-color: #424242; /*#171717;*/
+    background-color: #FEFEFE;
+    color: #000;
+}
+
+#main {
+    margin-top: 50px;
+    position: relative;
 }
 
 
-
-.aside {
+aside#wall-nav {
     position: fixed;
-    top: 50px;
+    top: 0;
     left: 0;
     bottom: 0;
     z-index: 600;
     width: 250px;
     background-color: #000;
 
-    background-color: #1B1B1B;
+    background-color: #1B1B1B; /*#434F5B /* #1B1B1B*/;
     border-right: 1px solid #292929;
     box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
 
     overflow-y: auto;
+
+    color: #FFF;
 }
 
-
-#main {
+div#wall-display {
     position: fixed;
-    top: 50px;
-    left: 0;
+    top: 0;
+    left: 250px;
     right: 0;
     bottom: 0;
     z-index: 1;
 
     overflow: auto;
-
     /*background-color: #171717: /* url("//static.wallhaven.cc/images/layout/bg-dark-grain.png") repeat scroll left top*/
-}
-
-.aside ~ #main {
-    left: 250px;
 }
 
 #wallpaper {
@@ -87,6 +88,8 @@ body {
 .wallthumb {
     position: relative;
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+    margin: 10px;
+    width: 300px;
 }
 
 .wallthumb > div {
@@ -100,6 +103,8 @@ body {
 
     color: #FFF;
     text-align: center;
+
+    font-size: 1.1em;
 }
 
 .wallthumb:hover > div {
@@ -132,7 +137,7 @@ body {
     padding: 5px;
 }
 .taglist ul a:hover {
-    background-color: rgba(40, 40, 40, 0.5);
+    background-color: rgba(70, 70, 70, 0.5);
 }
 
 .taglist ul a.character {

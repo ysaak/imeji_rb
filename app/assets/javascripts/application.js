@@ -12,8 +12,18 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require foundation
 //= require turbolinks
+
+//= require infini
+
 //= require_tree .
 
-$(function(){ $(document).foundation(); });
+
+$(document).ready(function() {
+
+    $('#header form input').focus(function() {
+        $('#header form label').addClass('active')
+    }).blur(function() {
+        $('#header form label').removeClass('active')
+    })
+});

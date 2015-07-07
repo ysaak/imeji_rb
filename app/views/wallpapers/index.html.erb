@@ -1,8 +1,16 @@
-<div id="main" role="main" class="ptl">
+<div id="main" role="main" class="homepage">
     <div class="flex-container" style="justify-content: space-around;">
         <% @walls.each do |wall| %>
-            <%= link_to wallpaper_thumb_tag(wall), wallpaper_path(wall), class: 'w300p mas wallthumb' %>
+            <a href="<%= wallpaper_path(wall) %>" class="w300p mas wallthumb">
+                <%= wallpaper_thumb_tag(wall) %>
+                <div class="grid-4-1">
+                    <span><%= wall.width %> x <%= wall.height %></span>
+                    <span class="txtcenter"><i class="fa fa-star"></i></span>
+                </div>
+            </a>
+
+            <% # link_to wallpaper_thumb_tag(wall), wallpaper_path(wall), class: 'w300p mas wallthumb' %>
+
         <% end %>
     </div>
-
 </div>
