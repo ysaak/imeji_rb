@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 
   get  'search/color/:color' => 'wallpapers#search', as: :search_color
   post 'search' => 'wallpapers#search', as: :search
+  get  'search/tags.json' => 'wallpapers#tag_search', as: :tags_search
+
+  post 'wallpaper/:id/edit' => 'wallpapers#edit', as: :wallpaper_edit
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

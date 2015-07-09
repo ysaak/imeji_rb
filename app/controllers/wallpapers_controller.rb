@@ -12,6 +12,63 @@ class WallpapersController < ApplicationController
     @tagCount = Tag.wallpapers_count(tagIds)
   end
 
+  def edit
+
+    @wallpaper = Wallpaper.find(params[:id])
+
+    editQuery = QueryParser.new.parse_query(params[:edqu])
+
+    if editQuery[:tag_count] > 0
+
+      # Add tags
+      if not editQuery[:tags][:related].blank?
+
+        initTagsList = editQuery[:tags][:related]
+        tags = Tag.where :name => editQuery[:tags][:related]
+
+        tags.each do |tag|
+          @wallpaper.tags << tag
+
+          # Remove tag from request list
+          initTagsList.delete tag.name
+        end
+
+        # Create non existing tags
+        initTagsList.each do |newTagName|
+
+
+          newTag = Tag.new :name => newTagName
+          newTag.save!
+
+          @wallpaper.tags << newTag
+        end
+      end
+
+      # Remove tags
+      if not editQuery[:tags][:exclude].blank?
+
+        tags = Tag.where :name => editQuery[:tags][:exclude]
+
+        tags.each do |tag|
+          @wallpaper.tags.delete tag
+        end
+
+      end
+
+      # Purity
+      if editQuery.has_key? :purity and ['SFW', 'NSFW', 'SKETCHY'].include? editQuery[:purity]
+        @wallpaper.purity = editQuery[:purity]
+      end
+
+
+      # or (not urlQuery[:tags][:].blank?)
+
+      @wallpaper.save!
+    end
+
+    redirect_to wallpaper_path(@wallpaper)
+  end
+
   def search
 
     @queryString = params[:q]
@@ -144,5 +201,12 @@ class WallpapersController < ApplicationController
       render jbuilder: @walls;
       return
     end
+  end
+
+  def tag_search
+
+    term = params[:term]
+
+    @tags = Tag.where('name LIKE ?', "#{term}%").order(:name).pluck(:name)
   end
 end

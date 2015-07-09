@@ -12,8 +12,11 @@
  *
  *= require_tree .
  *= require_self
+ *= require jquery-ui/autocomplete
 
  */
+
+@import "jquery-modal/jquery.modal";
 
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700,300);
 

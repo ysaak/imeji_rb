@@ -1,0 +1,74 @@
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+// or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// compiled file.
+//
+// Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
+// about supported directives.
+//
+//= require jquery
+//= require jquery_ujs
+//= require turbolinks
+//= require jquery-ui/autocomplete
+
+//= require infini
+//= require jquery-modal/jquery.modal
+
+//= require_tree .
+
+
+$(document).ready(function() {
+
+    $('#header form input').focus(function() {
+        $('#header form label').addClass('active')
+    }).blur(function() {
+        $('#header form label').removeClass('active')
+    })
+
+
+    var tagSearchPath = '<%= Rails.application.routes.url_helpers.tags_search_path %>';
+
+    function split( val ) {
+        return val.split( / \s*/ );
+    }
+    function extractLast( term ) {
+        return split( term ).pop();
+    }
+
+
+    $('#header form input[type="text"], #edit-field')
+        // don't navigate away from the field on tab when selecting an item
+        .bind( "keydown", function( event ) {
+            if ( event.keyCode === $.ui.keyCode.TAB &&
+                $( this ).autocomplete( "instance" ).menu.active ) {
+                event.preventDefault();
+            }
+        })
+        .autocomplete({
+            minLength: 0,
+            source: function(request, response) {
+                $.getJSON(tagSearchPath, {
+                    term: extractLast(request.term)
+                }, response);
+            },
+            focus: function() {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function( event, ui ) {
+                var terms = split(this.value);
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push(ui.item.value);
+                // add placeholder to get the comma-and-space at the end
+                terms.push("");
+                this.value = terms.join( " " );
+                return false;
+            }
+        });
+});

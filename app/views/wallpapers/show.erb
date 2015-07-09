@@ -40,6 +40,12 @@
       <dd><%= time_ago_in_words(@wall.created_at) %> ago</dd>
     </dl>
   </section>
+
+
+
+  <footer>
+    <a href="#wall-edit-modal" rel="modal:open"><i class="fa fa-pencil-square-o"></i> Edit wallpaper</a>
+  </footer>
 </aside>
 
 <div id="wall-display">
@@ -50,4 +56,18 @@
   <div class="wallpaper-dl-btn">
     <a href="<%= wallpaper_dl_path(@wall) %>" class="btn-floating btn-large"><i class="fa fa-download fa-2x"></i></a>
   </div>
+</div>
+
+<div id="wall-edit-modal" class="modal">
+
+  <%= form_tag :wallpaper_edit, :method => 'post' do %>
+      <h3 class="pa0 ma0">Edit wallpaper</h3>
+
+
+      <label for="edit-field"><i class="fa fa-pencil-square-o fa-2x fa-fw"></i></label><!--
+        --><%= text_field_tag :edqu, nil, :id => 'edit-field', :placeholder => 'edit string', :autocomplete => 'off' %>
+      <button type="submit">Ok</button>
+
+  <% end %>
+
 </div>

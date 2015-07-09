@@ -1,0 +1,21 @@
+.ui-autocomplete.ui-widget-content {
+  background: rgba(0, 0, 0, 0.7) !important;
+
+  color: #FFF;
+
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-width: 1px 0 0 0;
+
+  max-height: 200px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
+
+
+  .ui-menu-item.ui-state-focus {
+    border: none;
+    background: rgba(255, 255, 255, 0.7);
+  }
+}

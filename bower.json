@@ -1,0 +1,21 @@
+{
+  "name": "imeji",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ysaak/imeji",
+  "authors": [
+    "Damien ROTH <damien.roth@gmail.com>"
+  ],
+  "description": "Personal wallpaper gallery",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-modal": "~0.5.2"
+  }
+}

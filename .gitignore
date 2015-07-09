@@ -15,3 +15,5 @@
 # wallpapers
 /public/images/thumbs
 /public/images/walls
+
+/vendor/assets/bower_components

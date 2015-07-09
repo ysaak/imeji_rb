@@ -11,6 +11,10 @@ class Tag < ActiveRecord::Base
 
   def self.wallpapers_count(tagsIds)
 
+    if tagsIds.blank?
+      return {}
+    end
+
     query = 'SELECT tag_id, COUNT(1) res FROM tags_wallpapers WHERE tag_id IN (' + tagsIds.join(',') + ') GROUP BY tag_id'
     res = self.connection.select_all(query)
 
