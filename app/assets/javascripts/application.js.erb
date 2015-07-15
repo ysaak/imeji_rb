@@ -23,12 +23,24 @@
 
 $(document).ready(function() {
 
-    $('#header form input').focus(function() {
-        $('#header form label').addClass('active')
-    }).blur(function() {
-        $('#header form label').removeClass('active')
-    })
 
+    $('#app_search').each(function() {
+        var $search = $('#search');
+
+        /* Set active state on label when input has focus */
+        var $label = $('label', this);
+        $search.focus(function() {
+            $label.addClass('active')
+        }).blur(function() {
+            $label.removeClass('active')
+        });
+
+        /* Remove trailing white spaces on form submit */
+        $(this).on('submit', function() {
+            $search.val($search.val().trim());
+            return true;
+        });
+    });
 
     var tagSearchPath = '<%= Rails.application.routes.url_helpers.tags_search_path %>';
 

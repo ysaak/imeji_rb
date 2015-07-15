@@ -1,5 +1,5 @@
 class QueryParser
-  METATAGS = "md5|-rating|rating|width|height|ratio|score|order|limit|tagcount|file_type|-file_type|color"
+  METATAGS = 'md5|-rating|rating|width|height|ratio|score|order|limit|tagcount|file_type|-file_type|color'
 
   def parse_query(query)
 

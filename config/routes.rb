@@ -7,10 +7,9 @@ Rails.application.routes.draw do
 
   get 'wallpaper/:id' => 'wallpapers#show', as: :wallpaper
 
-  get  'search/color/:color' => 'wallpapers#search', as: :search_color
-  post 'search' => 'wallpapers#search', as: :search
-  get  'search/tags.json' => 'wallpapers#tag_search', as: :tags_search
-  get  'search/untagged' => 'wallpapers#untagged', as: :search_untagged
+  get 'search' => 'wallpapers#search', as: :search
+  get 'search/tags.json' => 'wallpapers#tag_search', as: :tags_search
+  get 'search/untagged' => 'wallpapers#untagged', as: :search_untagged
 
   post 'wallpaper/edit' => 'wallpapers#edit', as: :wallpaper_edit
 
