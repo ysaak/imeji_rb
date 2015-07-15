@@ -13,10 +13,9 @@
  *= require_tree .
  *= require_self
  *= require jquery-ui/autocomplete
-
+ *= require fontawesome/css/font-awesome.min
+ *= require jquery-modal/jquery.modal
  */
-
-@import "jquery-modal/jquery.modal";
 
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700,300);
 
@@ -27,9 +26,16 @@ body {
     color: #000;
 }
 
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 #main {
-    margin-top: 50px;
-    position: relative;
+  position: relative;
+  padding: 10px;
 }
 
 

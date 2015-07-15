@@ -44,7 +44,7 @@
 
 
   <footer>
-    <a href="#wall-edit-modal" rel="modal:open"><i class="fa fa-pencil-square-o"></i> Edit wallpaper</a>
+    <a href="#" data-toggle="wall-edit" data-wall-id="<%= @wall.id %>"><i class="fa fa-pencil-square-o"></i> Edit wallpaper</a>
   </footer>
 </aside>
 
@@ -58,16 +58,4 @@
   </div>
 </div>
 
-<div id="wall-edit-modal" class="modal">
-
-  <%= form_tag :wallpaper_edit, :method => 'post' do %>
-      <h3 class="pa0 ma0">Edit wallpaper</h3>
-
-
-      <label for="edit-field"><i class="fa fa-pencil-square-o fa-2x fa-fw"></i></label><!--
-        --><%= text_field_tag :edqu, nil, :id => 'edit-field', :placeholder => 'edit string', :autocomplete => 'off' %>
-      <button type="submit">Ok</button>
-
-  <% end %>
-
-</div>
+<%= render 'wall_edit' %>

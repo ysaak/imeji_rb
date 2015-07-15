@@ -1,0 +1,22 @@
+<h1>Wallpapers sans tags</h1>
+
+<% if not @walls.blank? %>
+
+<p>Il y a <%= @walls.size %> wallpapers sans tags</p>
+
+<div id="wall-lister">
+  <% @walls.each do |wall| %>
+    <div class="wallthumb">
+      <%= wallpaper_thumb_tag(wall) %>
+      <div class="thumb-edit-list">
+        <a href="<%= url_for wall %>">Voir</a>
+        <a href="#" data-toggle="wall-edit" data-wall-id="<%= wall.id %>">Edit tags</a>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= render 'wall_edit' %>
+<% else %>
+    PAs de wallpaper trouve !!
+<% end %>

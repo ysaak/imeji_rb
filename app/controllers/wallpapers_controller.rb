@@ -204,9 +204,11 @@ class WallpapersController < ApplicationController
   end
 
   def tag_search
-
     term = params[:term]
-
     @tags = Tag.where('name LIKE ?', "#{term}%").order(:name).pluck(:name)
+  end
+
+  def untagged
+    @walls = Wallpaper.where('NOT EXISTS (SELECT 1 FROM tags_wallpapers WHERE wallpaper_id = wallpapers.id)', {}).limit(12)
   end
 end

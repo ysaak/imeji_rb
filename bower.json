@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
+    "fontawesome": "~4.2.0",
     "jquery-modal": "~0.5.2"
   }
 }

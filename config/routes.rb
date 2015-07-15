@@ -5,14 +5,14 @@ Rails.application.routes.draw do
   get 'welcome/index'
   get 'init' => 'welcome#init'
 
-
   get 'wallpaper/:id' => 'wallpapers#show', as: :wallpaper
 
   get  'search/color/:color' => 'wallpapers#search', as: :search_color
   post 'search' => 'wallpapers#search', as: :search
   get  'search/tags.json' => 'wallpapers#tag_search', as: :tags_search
+  get  'search/untagged' => 'wallpapers#untagged', as: :search_untagged
 
-  post 'wallpaper/:id/edit' => 'wallpapers#edit', as: :wallpaper_edit
+  post 'wallpaper/edit' => 'wallpapers#edit', as: :wallpaper_edit
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
