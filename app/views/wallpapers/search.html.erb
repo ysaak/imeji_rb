@@ -1,0 +1,8 @@
+
+<% if not @walls.blank? %>
+
+<%= render :partial => 'shared/wallpaper_list', :locals => { :infinite => true, :wallpapers => @walls } %>
+
+<% else %>
+    PAs de wallpaper trouve !!
+<% end %>
