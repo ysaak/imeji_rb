@@ -1,16 +1,5 @@
-<div id="main" role="main" class="homepage">
-    <div class="flex-container" style="justify-content: space-around;">
-        <% @walls.each do |wall| %>
-            <a href="<%= wallpaper_path(wall) %>" class="w300p mas wallthumb">
-                <%= wallpaper_thumb_tag(wall) %>
-                <div class="grid-4-1">
-                    <span><%= wall.width %> x <%= wall.height %></span>
-                    <span class="txtcenter"><i class="fa fa-star"></i></span>
-                </div>
-            </a>
+<div class="homepage">
 
-            <% # link_to wallpaper_thumb_tag(wall), wallpaper_path(wall), class: 'w300p mas wallthumb' %>
+  <%= render :partial => 'shared/wallpaper_list', :locals => { :infinite => false, :wallpapers => @walls } %>
 
-        <% end %>
-    </div>
 </div>
