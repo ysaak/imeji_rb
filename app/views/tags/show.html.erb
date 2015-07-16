@@ -1,0 +1,37 @@
+<section class="tag-brand" style="<%= background_string @background_wallpaper, @tag.bg_x, @tag.bg_y %>">
+  <div>
+    <header>
+      <h1><%= @tag.name %></h1>
+
+      <div>
+        <strong>Alias&nbsp;:</strong><br>
+        <%= @tag.aliases.map{|v| v.name}.join(', ') %>
+      </div>
+    </header>
+
+
+    <ul class="tag-attrs">
+      <li>Type&nbsp;: <%= @tag.type.to_s %></li>
+      <li>Nb wallpapers : <%= @wallpapers_count %></li>
+    </ul>
+  </div>
+
+  <% if not @background_wallpaper.nil? %>
+  <a href="<%= url_for wallpaper_path(@background_wallpaper) %>" class="wall-bg-link">
+    <i class="fa fa-image fa-fw"></i>
+  </a>
+  <% end %>
+</section>
+
+
+<%= render :partial => 'shared/wallpaper_list', :locals => { :infinite => false, :wallpapers => @wallpapers } %>
+
+<% if @wallpapers_count > 12 %>
+
+<div style="text-align: center">
+
+  <a href="<%= url_for search_path(:q => @tag.name) %>" class="btn">Plus de fonds de wallpapers</a>
+
+</div>
+
+<% end %>

@@ -9,10 +9,19 @@ $(document).ready(function() {
 
     var page = 1;
 
-    /* la fonction offset permet de récupérer la valeur X et Y d'un élément
-     dans une page. Ici on récupère la position du dernier div qui
-     a pour classe : "#wall-lister .wallthumb" */
-    var offset = $('#wall-lister .wallthumb:last').offset();
+    var searchUrl = '<%= Rails.application.routes.url_helpers.search_path %>';
+
+    var infinite = $('div[data-toggle="infinite"]');
+    if (infinite.length == 0) {
+        console.log('Inifinite scroll disabled');
+        return;
+    }
+    else if (infinite.length > 1) {
+        infinite = infinite.get(0);
+    }
+
+    /* Recherche la position du dernier element */
+    var offset = $('> *', infinite).offset();
 
     $(window).scroll(function(){ // On surveille l'évènement scroll
 
@@ -28,19 +37,15 @@ $(document).ready(function() {
             //On affiche un loader
             // FIXME !!
             //$('.loadmore').show();
-
-            console.log('page = ' + page);
-
             page = parseInt(page) + 1;
-            console.log('new page = ' + page);
 
 
             //On lance la fonction ajax
             $.ajax({
                 url: searchUrl,
-                type: 'post',
+                type: 'get',
                 dataType: 'json',
-                data: { q: searchQuery, page: page },
+                data: { page: page },
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
                 },

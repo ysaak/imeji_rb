@@ -1,0 +1,25 @@
+<div id="wall-lister"<%= raw(' data-toggle="infinite"') if infinite %>>
+
+  <% wallpapers.each do |wall| %>
+      <a href="<%= wallpaper_path(wall) %>" class="wallthumb">
+        <%= wallpaper_thumb_tag(wall) %>
+        <div class="grid-4-1">
+          <span><%= wall.width %> x <%= wall.height %></span>
+          <span class="txtcenter"><i class="fa fa-star"></i></span>
+        </div>
+      </a>
+  <% end %>
+
+</div>
+
+<% if infinite %>
+<script type="text/template" id="search-result-tpl">
+  <a href="{{path}}" class="wallthumb">
+    <img src="{{thumb_path}}">
+    <div class="grid-4-1">
+      <span>{{width}} x {{height}}</span>
+      <span class="txtcenter"><i class="fa fa-star"></i></span>
+    </div>
+  </a>
+</script>
+<% end %>

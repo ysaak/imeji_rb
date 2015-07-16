@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'tags/show'
+
   get 'help' => 'help_pages#home', as: :help_home
   get 'help/search' => 'help_pages#search', as: :help_search
 
@@ -8,10 +10,12 @@ Rails.application.routes.draw do
   get 'wallpaper/:id' => 'wallpapers#show', as: :wallpaper
 
   get 'search' => 'wallpapers#search', as: :search
-  get 'search/tags.json' => 'wallpapers#tag_search', as: :tags_search
+  get 'search/tags.json' => 'tags#search', as: :tags_search
   get 'search/untagged' => 'wallpapers#untagged', as: :search_untagged
 
   post 'wallpaper/edit' => 'wallpapers#edit', as: :wallpaper_edit
+
+  get 'tag/:code' => 'tags#show', as: :tag
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

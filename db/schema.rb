@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150625193243) do
+ActiveRecord::Schema.define(version: 20150716085503) do
 
   create_table "colors", force: true do |t|
     t.string   "red"
@@ -26,11 +26,14 @@ ActiveRecord::Schema.define(version: 20150625193243) do
   add_index "colors", ["wallpaper_id"], name: "index_colors_on_wallpaper_id", using: :btree
 
   create_table "tags", force: true do |t|
-    t.string   "name",                    null: false
-    t.integer  "type",        default: 0, null: false
+    t.string   "name",                     null: false
+    t.integer  "type",         default: 0, null: false
     t.integer  "alias_of_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "wallpaper_id"
+    t.string   "bg_x"
+    t.string   "bg_y"
   end
 
   add_index "tags", ["alias_of_id"], name: "index_tags_on_alias_of_id", using: :btree

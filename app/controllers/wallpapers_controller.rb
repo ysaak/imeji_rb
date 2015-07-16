@@ -71,11 +71,13 @@ class WallpapersController < ApplicationController
 
   def search
 
-    @queryString = params[:q]
-    if params.has_key? :color
-      @queryString = "color:#{params[:color]}"
+    if params.has_key? :q
+      @queryString = params[:q]
+    elsif session.has_key? :last_search
+      @queryString = session[:last_search]
     end
 
+    session[:last_search] = @queryString
     urlQuery = QueryParser.new.parse_query(@queryString)
 
     # Init vars
@@ -201,11 +203,6 @@ class WallpapersController < ApplicationController
       render jbuilder: @walls;
       return
     end
-  end
-
-  def tag_search
-    term = params[:term]
-    @tags = Tag.where('name LIKE ?', "#{term}%").order(:name).pluck(:name)
   end
 
   def untagged

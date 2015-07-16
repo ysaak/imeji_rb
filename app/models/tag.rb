@@ -1,11 +1,12 @@
 class Tag < ActiveRecord::Base
   self.inheritance_column = 'zoink'
 
-  has_and_belongs_to_many :wallpapers
+  has_and_belongs_to_many :wallpapers, -> { order('rand()') }
 
   has_many :aliases, class_name: 'Tag', foreign_key: 'alias_of_id'
-  has_one :alias_of, class_name: 'Tag', foreign_key: 'id'
+  has_one :alias_of, class_name: 'Tag', foreign_key: 'id', primary_key: 'alias_of_id'
 
+  has_one :background_wallpaper, class_name: 'Wallpaper', foreign_key: 'id', primary_key: 'wallpaper_id'
 
   enum type: [:general, :character, :title]
 
