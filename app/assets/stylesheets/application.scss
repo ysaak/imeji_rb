@@ -175,3 +175,14 @@ div#wall-display {
     display: block;
     margin-left: 10px;
 }
+
+
+.tabs-pane {
+  .pane {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+}

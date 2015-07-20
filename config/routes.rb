@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+
   get 'tags/show'
 
   get 'help' => 'help_pages#home', as: :help_home
@@ -16,6 +18,11 @@ Rails.application.routes.draw do
   post 'wallpaper/edit' => 'wallpapers#edit', as: :wallpaper_edit
 
   get 'tag/:code' => 'tags#show', as: :tag
+
+  namespace :admin do
+    get 'wallpapers/import', as: :import_wallpaper
+    post 'wallpapers/do_import', as: :do_import_wallpaper
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

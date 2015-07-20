@@ -84,3 +84,34 @@ $(document).ready(function() {
             }
         });
 });
+
+
+$(document).ready(function() {
+    $('*[data-toggle="display"]').on('click', function() {
+       var target = $(this).data('target');
+        $('#'+target).toggle()
+    });
+
+    $('a[data-toggle="tab"]').on('click', function(event) {
+        event.preventDefault();
+
+        // Remove active class on all anchor tags
+        $('a', $(this).parent()).each(function() {
+            $(this).removeClass('active');
+        });
+
+        $(this).addClass('active');
+        var target = $(this).attr('href');
+
+        console.log(target);
+
+        var $target = $(target);
+
+        $target.parent().children().each(function() {
+            $(this).removeClass('active');
+        });
+
+        $target.addClass('active');
+    });
+});
+

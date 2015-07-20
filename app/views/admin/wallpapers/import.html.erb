@@ -1,0 +1,68 @@
+<h1>Wallpapers#import</h1>
+
+<nav>
+  <ul><li><a href="#solo" data-toggle="tab" class="active">One wallpaper</a></li>
+    <li><a href="#multi" data-toggle="tab">Multiple wallpapers</a></li></ul>
+</nav>
+
+<hr>
+
+<div class="tabs-pane">
+
+    <section class="pane active" id="solo">
+      One wall ! hey !
+
+      <%= form_tag :admin_do_import_wallpaper, :multipart => true, :method => 'post', :id => 'singlewall_import' do %>
+          <%= hidden_field_tag :type, 'single' %>
+          <label for="wallfile"><i class="fa fa-file-image-o fa-fw"></i> Fichier :</label>
+          <%= file_field_tag :wallfile %>
+          <button type="submit">Upload</button>
+      <% end #form_tag %>
+
+
+    </section>
+
+    <section class="pane" id="multi">
+
+      <p>To import multiple wallpapers at once, please put them in <code><%= @import_folder.to_s %></code></p>
+
+      <div class="grid-4">
+        <div>Available for upload: <%= print_bool (@import_folder.exist? and @import_folder.directory? and @import_folder.readable?) %></div>
+        <div>Nb files: <%= @file_list.size %>
+          <% if @file_list.size > 0 %>
+              <button type="button" data-toggle="display" data-target="import_table"><i class="fa fa-search"></i>
+                show files
+              </button>
+          <% end %>
+        </div>
+        <div>&nbsp;</div>
+
+        <% if @file_list.size > 0 %>
+            <%= form_tag :admin_do_import_wallpaper, :method => 'post', :id => 'multiwall_import' do %>
+                <%= hidden_field_tag :type, 'multiple' %>
+                <button type="submit">Start upload</button>
+            <% end #form_tag %>
+        <% end %>
+      </div>
+
+      <% if @file_list.size > 0 %>
+          <table id="import_table" style="display: none">
+            <col />
+            <thead>
+            <tr>
+              <th>File</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @file_list.each do |file| %>
+                <tr data-hash="<%= file[:hash] %>">
+                  <td><%= file[:text] %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+      <% end %>
+
+    </section>
+
+</div>
