@@ -144,8 +144,16 @@ $header-green: #56a14b;
       }
     }
 
-    li[data-toggle='header-drop']:hover > ul {
-      display: flex;
+    li[data-toggle='header-drop']:hover {
+
+      & > a {
+        color: rgba(255, 255, 255, 1);
+        background-color: $header-box-bg-hover;
+      }
+
+      & > ul {
+        display: flex;
+      }
     }
   }
 
