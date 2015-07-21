@@ -1,3 +1,6 @@
+.ui-autocomplete {
+  z-index: 999 !important;
+}
 .ui-autocomplete.ui-widget-content {
   background: rgba(0, 0, 0, 0.7) !important;
 
@@ -17,5 +20,65 @@
   .ui-menu-item.ui-state-focus {
     border: none;
     background: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.ui-widget-overlay {
+  background: none !important;
+  background-color: rgba(0,0,0,0.5) !important;
+  opacity: 1 !important;
+  z-index: 899 !important;
+}
+
+.ui-dialog {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: .2em;
+  outline: 0;
+
+  border: 0 !important;
+
+  .ui-widget-header {
+    padding: .4em 1em;
+    position: relative;
+
+    background: none;
+    border: none;
+
+    .ui-dialog-title {
+      margin: .1em 0;
+      white-space: nowrap;
+      width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ui-dialog-titlebar-close {
+      display: none;
+    }
+  }
+
+  .ui-dialog-content {
+    position: relative;
+    border: 0;
+    padding: .5em 1em;
+    background: none;
+    overflow: auto;
+  }
+
+  .ui-dialog-buttonpane {
+    float: right;
+
+    text-align: left;
+    border-width: 0;
+    background-image: none;
+    margin-top: .5em;
+
+    button {
+      margin: .5em .4em .5em 0;
+      cursor: pointer;
+    }
   }
 }

@@ -1,6 +1,210 @@
+
 .homepage {
   max-width: 960px;
   margin: 0 auto;
+}
+
+aside#wall-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 600;
+  width: 250px;
+  background-color: #000;
+
+  background-color: #1B1B1B; /*#434F5B /* #1B1B1B*/;
+  border-right: 1px solid #292929;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+
+  overflow-y: auto;
+
+  color: #FFF;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 10px;
+
+  section + section {
+    border-top: 1px solid #434F5B;
+  }
+
+  section {
+    position: relative;
+    padding: 10px 0;
+
+    .acc-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 1.1em;
+      height: 1.1em;
+
+      color: #88CCCC;
+      border-radius: 50%;
+
+      &:hover {
+        background-color: rbga(255, 255, 255, 0.5);
+      }
+    }
+
+    h2 {
+      margin: 0px 0px 1em;
+      padding: 0px;
+      font-size: 0.85em;
+      line-height: 1.52941em;
+      text-transform: uppercase;
+      border: 0px none;
+      font-weight: bold;
+      color: #88CCCC;
+    }
+  }
+
+  .taglist ul {
+    max-height: 250px;
+    overflow: auto;
+
+    list-style: outside none none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .taglist ul a {
+    display: block;
+    color: #FFF;
+    text-decoration: none;
+    padding: 5px;
+  }
+  .taglist ul a:hover {
+    background-color: rgba(70, 70, 70, 0.5);
+  }
+
+  .taglist ul a.character {
+    color: #008000;
+  }
+
+  .taglist ul a.title {
+    color: #006699;
+  }
+
+  .taglist a>span {
+    float: right;
+  }
+
+  .datalist dl dt {
+    float: left;
+    text-align: right;
+    color: #85AAAF;
+    display: inline-block;
+    width: 80px;
+    padding-right: 10px;
+
+  }
+
+  .datalist dl dd {
+    display: block;
+    margin-left: 10px;
+  }
+
+  .datalist {
+
+    header {
+      display: flex;
+      flex-direction: row;
+      flex-flow: wrap;
+      justify-content: space-around;
+
+      .rating, .category {
+        border-radius: 4px;
+        width: 84px;
+
+        text-align: center;
+        text-shadow: 0 0 10px #000;
+
+        display: inline-block;
+        margin: 5px 3px;
+        padding: 4px 5px;
+      }
+
+      .rating {
+        &.rating-SFW {
+          border: 1px solid rgb(46, 125, 50);
+          background-color: rgba(46, 125, 50, 0.8); // Gradient ?
+        }
+        &.rating-SKETCHY {
+          border: 1px solid rgb(244, 129, 0);
+          background-color: rgba(244, 129, 0, 0.8);
+        }
+        &.rating-NSFW {
+          border: 1px solid rgb(239, 74, 58);
+          background-color: rgba(239, 74, 58, 0.8);
+        }
+      }
+
+      .category {
+        border: 1px solid #85AAAF;
+        width: 120px;
+      }
+    }
+
+  }
+
+  footer {
+    //padding: 10px;
+    a {
+      display: block;
+      color: #666;
+      text-align: center;
+      text-shadow: 0 0 10px #000;
+      transition: all 0.2s ease 0s;
+
+      padding: 4px;
+
+      border-radius: 4px;
+
+      &:hover {
+        text-decoration: none;
+        color: #000;
+        background-color: rgba(255, 255, 255, 0.7);
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
+}
+
+div#wall-display {
+  position: fixed;
+  top: 0;
+  left: 250px;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+
+  overflow: auto;
+  /*background-color: #171717: /* url("//static.wallhaven.cc/images/layout/bg-dark-grain.png") repeat scroll left top*/
+}
+
+#wallpaper {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: block;
+  margin: auto;
+  max-width: 95%;
+  max-height: 95%;
+  -moz-user-select: none;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+  cursor: zoom-in;
+}
+
+.full #wallpaper {
+  max-height: none;
+  max-width: none;
+  cursor: zoom-out;
 }
 
 #wall-lister {
@@ -12,20 +216,40 @@
 
 
 .wallpaper-dl-btn {
+
   position: fixed;
   bottom: 10px;
   right: 10px;
   z-index: 999;
-  
-  .btn-large {
-    background-color: #c62828;
 
-    opacity: 0.4;
-    
-    &:hover {
-      opacity: 1;
+  a {
+    display: inline-block;
+    color: #FFF;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 1.2em !important;
+    width: 40px;
+    height: 30px;
+
+    line-height: 1.5em;
+
+    border-radius: 3px;
+    text-align: center;
+
+    padding: 4px 0;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+    transition: all 0.2s ease 0s;
+
+    & > i {
+      font-size: 1.3em !important;
+    }
+
+    &:hover, &.active {
+      color: #000;
+      background-color: rgba(211, 62, 52, 0.9);
     }
   }
+
 }
 
 

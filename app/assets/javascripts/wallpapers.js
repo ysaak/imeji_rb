@@ -15,10 +15,17 @@ $(document).ready(function() {
 
         $('input[name="id"]', $modal).val(id);
 
-        $modal.modal();
+        $modal.dialog({
+            dialogClass: 'testor',
+            modal: true,
+            draggable: false,
+            resizable: false
+        });
     });
 
+    /*
     $('#wall-edit-modal').on($.modal.OPEN, function(event, modal) {
         $('input[type="text"]', this).focus();
     });
+    */
 });

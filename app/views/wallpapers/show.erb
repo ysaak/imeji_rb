@@ -1,46 +1,50 @@
-<aside id="wall-nav" class="flex-container-v pas">
-
-  <section class="taglist">
-    <h2>Colors</h2>
-    <div class="color_palette">
+<aside id="wall-nav">
+  <div>
+    <section class="taglist">
+      <h2>Colors</h2>
+      <div class="color_palette">
       <% @wall.colors.each do |color| %>
         <%= color_link(color) %>
       <% end %>
-    </div>
-  </section>
+      </div>
+    </section>
 
-  <section class="taglist">
-    <h2>Tags</h2>
-    <ul class="pa0 ma0 unstyled">
+    <section class="taglist">
+      <h2>Tags</h2>
+      <ul>
+    <% @wall.tags.each do |tag| %>
+        <li><a href="<%= url_for tag_path(tag.name) %>" class="<%= tag.type.to_s %>"><%= tag.name %><span><%= @tagCount[tag.id] %></span></a></li>
+    <% end %>
+      </ul>
+    </section>
 
-<% @wall.tags.each do |tag| %>
-      <li><a href="<%= url_for tag_path(tag.name) %>" class="<%= tag.type.to_s %>"><%= tag.name %><span><%= @tagCount[tag.id] %></span></a></li>
-<% end %>
+    <section class="datalist">
+      <h2>Informations</h2>
 
-    </ul>
-  </section>
+      <header>
+        <div class="rating rating-<%= @wall.purity %>">
+          <%= @wall.purity %>
+        </div>
 
-  <section class="datalist">
-    <h2>Informations</h2>
+        <div class="category">
+          <%= @wall.category %>
+        </div>
 
-    <dl>
-      <dt>Purity</dt>
-      <dd><%= @wall.purity %></dd>
+      </header>
 
-      <dt>Resolution</dt>
-      <dd><%= @wall.width %> x <%= @wall.height %></dd>
+      <dl>
+        <dt>Resolution</dt>
+        <dd><%= @wall.width %> x <%= @wall.height %></dd>
 
-      <dt>Size</dt>
-      <dd><%= number_to_human_size(@wall.size) %></dd>
+        <dt>Size</dt>
+        <dd><%= number_to_human_size(@wall.size) %></dd>
 
-      <dt>Category</dt>
-      <dd><%= @wall.category %></dd>
+        <dt>Added</dt>
+        <dd><%= time_ago_in_words(@wall.created_at) %> ago</dd>
+      </dl>
+    </section>
 
-      <dt>Added</dt>
-      <dd><%= time_ago_in_words(@wall.created_at) %> ago</dd>
-    </dl>
-  </section>
-
+  </div>
 
 
   <footer>
@@ -54,7 +58,7 @@
   </div>
 
   <div class="wallpaper-dl-btn">
-    <a href="<%= wallpaper_dl_path(@wall) %>" class="btn-floating btn-large"><i class="fa fa-download fa-2x"></i></a>
+    <a href="<%= wallpaper_dl_path(@wall) %>" class=""><i class="fa fa-download fa-fw"></i></a>
   </div>
 </div>
 

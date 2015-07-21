@@ -1,7 +1,7 @@
-<div id="wall-edit-modal" class="modal">
+<div id="wall-edit-modal" title="Edit wallpaper">
   <%= form_tag :wallpaper_edit, :method => 'post' do %>
       <input type="hidden" name="id" value="">
-      <h3 class="pa0 ma0">Edit wallpaper</h3>
+      <h3 class="pa0 ma0"></h3>
 
       <label for="edit-field"><i class="fa fa-pencil-square-o fa-2x fa-fw"></i></label><!--
     --><%= text_field_tag :edqu, nil, :id => 'edit-field', :placeholder => 'edit string', :autocomplete => 'off' %>
