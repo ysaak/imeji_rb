@@ -61,11 +61,11 @@
     }
   }
 
-  .wall-bg-link {
+  .wall-bg-link, .edit-btn {
 
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 5px;
+    right: 5px;
     width: 2em;
     height: 2em;
 
@@ -79,5 +79,10 @@
       background-color: rgba(0, 0, 0, 0.5);
       color: #FFF;
     }
+  }
+
+  .edit-btn {
+    right: auto;
+    left: 5px;
   }
 }

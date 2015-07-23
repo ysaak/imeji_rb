@@ -1,0 +1,25 @@
+<%= form_for @tag do |f| %>
+
+    <p><%= f.label :wallpaper_id %><br>
+      <%= f.text_field :wallpaper_id %></p>
+
+    <p>
+        <%= f.label :bg_x %><br>
+        <%= f.text_field :bg_x %>
+        <span class="help">value in px or % or kw in [left, center, right]</span>
+    </p>
+
+    <p>
+      <%= f.label :bg_y %><br>
+      <%= f.text_field :bg_y %><br>
+      <span class="help">value in px or % or kw in [top, middle, bottom]</span>
+    </p>
+
+    <p><button type="button" id="tag_header_preview">Preview</button></p>
+    <p><%= f.submit %></p>
+
+
+    <script type="text/javascript">
+    var wallpaperUrlTemplate = '<%= url_for wallpaper_path(':id', format: 'json') %>';
+    </script>
+<% end #form %>

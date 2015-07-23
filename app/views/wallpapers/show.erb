@@ -13,7 +13,7 @@
       <h2>Tags</h2>
       <ul>
     <% @wall.tags.each do |tag| %>
-        <li><a href="<%= url_for tag_path(tag.name) %>" class="<%= tag.type.to_s %>"><%= tag.name %><span><%= @tagCount[tag.id] %></span></a></li>
+        <li><a href="<%= url_for tag_path(tag) %>" class="<%= tag.type.to_s %>"><%= tag.name %><span><%= @tagCount[tag.id] %></span></a></li>
     <% end %>
       </ul>
     </section>

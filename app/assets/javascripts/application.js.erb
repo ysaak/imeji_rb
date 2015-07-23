@@ -103,8 +103,6 @@ $(document).ready(function() {
         $(this).addClass('active');
         var target = $(this).attr('href');
 
-        console.log(target);
-
         var $target = $(target);
 
         $target.parent().children().each(function() {
@@ -113,5 +111,25 @@ $(document).ready(function() {
 
         $target.addClass('active');
     });
+
+    $('a[data-toggle="modal"]').on('click', function(event) {
+        event.preventDefault();
+
+        var target = $(this).attr('href');
+        var $target = $(target);
+
+        var options = {
+            modal: true,
+            draggable: false,
+            resizable: false
+        };
+
+        var width = $target.data('width');
+        if (typeof width !== 'undefined') {
+            options.width = width;
+        }
+
+        $target.dialog(options);
+    })
 });
 

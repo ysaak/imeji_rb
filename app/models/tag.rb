@@ -1,6 +1,8 @@
 class Tag < ActiveRecord::Base
   self.inheritance_column = 'zoink'
 
+  validates :name, presence: true, length: { minimum: 3 }, uniqueness: true
+
   has_and_belongs_to_many :wallpapers, -> { order('rand()') }
 
   has_many :aliases, class_name: 'Tag', foreign_key: 'alias_of_id'

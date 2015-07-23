@@ -16,7 +16,6 @@ $(document).ready(function() {
         $('input[name="id"]', $modal).val(id);
 
         $modal.dialog({
-            dialogClass: 'testor',
             modal: true,
             draggable: false,
             resizable: false
