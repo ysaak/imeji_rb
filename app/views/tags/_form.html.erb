@@ -17,10 +17,8 @@
     <p><%= f.label :name %><br>
       <%= f.text_field :name %></p>
 
-    <p><%= f.label :type %></p>
-    <p><%= f.radio_button :type, :general %> General</p>
-    <p><%= f.radio_button :type, :title %> Title</p>
-    <p><%= f.radio_button :type, :character %> Character</p>
+    <p><%= f.label :group_id %><br>
+    <%= f.collection_select(:group_id, Group.all.order('name'), :id, :name) %>
 
     <p><%= f.submit %></p>
 <% end #form %>

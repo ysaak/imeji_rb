@@ -8,4 +8,14 @@ module TagsHelper
     end
   end
 
+  def tagslist_title(root_group, sub_group)
+    if root_group.nil? and sub_group.nil?
+      'Tags'
+    elsif @sub_group.nil?
+      "Tags : #{@root_group.name}"
+    else
+      "Tags : #{@sub_group.name}"
+    end
+  end
+
 end

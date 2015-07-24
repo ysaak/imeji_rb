@@ -1,6 +1,31 @@
 class TagsController < ApplicationController
   def index
-    @tags = Tag.all.order('name ASC')
+    @groups = Group.list_roots
+
+    @root_group = nil
+    @sub_group = nil
+
+    @sub_groups = []
+    gid = nil
+
+    if params.has_key? :gid
+
+      gid = params[:gid].to_i
+
+      @root_group = Group.find gid
+      if not @root_group.parent_id.nil?
+        @sub_group = @root_group
+        @root_group = @root_group.parent
+      end
+
+      @sub_groups = Group.where(:parent_id => @root_group.id).order(:name)
+    end
+
+    if gid.nil?
+      @tags = Tag.all.order(:name)
+    else
+      @tags = Tag.where(:group_id => gid).order(:name)
+    end
   end
 
   def show
