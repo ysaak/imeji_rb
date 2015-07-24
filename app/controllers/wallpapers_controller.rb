@@ -206,6 +206,6 @@ class WallpapersController < ApplicationController
   end
 
   def untagged
-    @walls = Wallpaper.where('NOT EXISTS (SELECT 1 FROM tags_wallpapers WHERE wallpaper_id = wallpapers.id)', {}).limit(12)
+    @walls = Wallpaper.where('NOT EXISTS (SELECT 1 FROM tags_wallpapers WHERE wallpaper_id = wallpapers.id)').limit(12)
   end
 end
