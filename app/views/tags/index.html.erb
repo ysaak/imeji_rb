@@ -2,24 +2,28 @@
 
 <p><%= link_to 'New tag', new_tag_path %></p>
 
-<table class="table">
+<table class="table hover">
   <col />
+  <col width="120">
   <col width="80" span="2">
   <thead>
     <tr>
       <th>Name</th>
+      <th>Type</th>
       <th colspan="2">&nbsp;</th>
     </tr>
   </thead>
-<% @tags.each do |tag| %>
   <tbody>
+<% @tags.each do |tag| %>
+
     <tr>
       <td><%= tag.name %></td>
-      <td class="txtcenter"><%= link_to 'Show', tag_path(tag) %></td>
-      <td class="txtcenter"><%= link_to 'Destroy', tag_path(tag),
+      <td><%= tag.type %></td>
+      <td class="action-cell"><%= link_to 'Show', tag_path(tag) %></td>
+      <td class="action-cell danger"><%= link_to 'Destroy', tag_path(tag),
                        method: :delete,
                        data: { confirm: 'Are you sure?' } %></td>
     </tr>
-  </tbody>
 <% end %>
+  </tbody>
 </table>

@@ -1,0 +1,37 @@
+table {
+  background-color: rgb(255, 255, 255);
+
+  th, td {
+    border: 1px solid #000;
+  }
+
+  thead {
+    border-bottom: 2px solid #000;
+  }
+
+  &.hover tbody tr:hover {
+    td, th {
+      background-color: #F0F0F0;
+    }
+  }
+
+  .action-cell {
+    padding: 0;
+
+    a {
+      display: block;
+      text-align: center;
+      padding: 0.3em 0.8em;
+      vertical-align: middle;
+
+      &:hover {
+        background-color: #AAA;
+        text-decoration: none;
+      }
+    }
+
+    &.danger a:hover {
+      background-color: rgb(239, 74, 58);
+    }
+  }
+}

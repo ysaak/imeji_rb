@@ -1,8 +1,4 @@
 
-.homepage {
-  max-width: 960px;
-  margin: 0 auto;
-}
 
 aside#wall-nav {
   position: fixed;
@@ -199,6 +195,7 @@ div#wall-display {
   -moz-user-select: none;
   box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
   cursor: zoom-in;
+  background-color: #FFF;
 }
 
 .full #wallpaper {

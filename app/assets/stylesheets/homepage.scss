@@ -1,0 +1,17 @@
+h1 {
+  font-size: 2em;
+  font-weight: 400;
+  color: #FFF;
+  display: block;
+}
+
+.homepage {
+  max-width: 960px;
+  margin: 0 auto;
+
+  h1 {
+    font-family: "Monaco","dejavu sans mono"; // TODO : change font
+    text-shadow: 0px 0px 10px #7fea8e;
+    margin: 0;
+  }
+}
