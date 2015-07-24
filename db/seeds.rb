@@ -6,3 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 Parameter.create({name: 'import_path', value: '/tmp/wall'})
+
+Group.create([
+  {name: 'Miscellaneous'}, {name:'Anime & Manga'}, {name: 'Vehicle'}
+])

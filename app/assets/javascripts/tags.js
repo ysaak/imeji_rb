@@ -38,4 +38,5 @@ $(document).ready(function() {
             .css('background-position', bg_x + ' ' + bg_y);
 
     }
+
 });

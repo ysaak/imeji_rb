@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   namespace :admin do
     get 'wallpapers/import', as: :import_wallpaper
     post 'wallpapers/do_import', as: :do_import_wallpaper
+
+    resources :groups, except: [:show]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
