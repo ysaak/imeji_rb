@@ -35,8 +35,7 @@ class TagsController < ApplicationController
       @tag = @tag.alias_of
     end
 
-    @wallpapers_count = @tag.wallpapers.size
-    @wallpapers = @tag.wallpapers.take 12
+    @wallpapers = @tag.wallpapers.take 20
 
     @background_wallpaper = @tag.background_wallpaper
   end

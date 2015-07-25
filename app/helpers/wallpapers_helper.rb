@@ -62,7 +62,7 @@ module WallpapersHelper
         if html.blank?
           html = tag_link last
         else
-          html = "#{html} or #{tag_link last}"
+          html = "#{html} or #{tag_link last, false}"
         end
 
         html.html_safe
@@ -83,7 +83,10 @@ module WallpapersHelper
 
     end
 
-    def tag_link(tag)
-      link_to tag.name, search_path(:q => tag.name)
+    def tag_link(tag, with_walls_count=true)
+      text = tag.name
+      text += "<span>#{tag.wallpapers_count}</span>" if with_walls_count
+
+      link_to raw(text), search_path(:q => tag.name)
     end
 end

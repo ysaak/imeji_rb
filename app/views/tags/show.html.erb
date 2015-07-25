@@ -11,7 +11,7 @@
 
 
     <ul class="tag-attrs">
-      <li>Nb wallpapers : <%= @wallpapers_count %></li>
+      <li>Nb wallpapers : <%= @tag.wallpapers_count %></li>
     </ul>
   </div>
 
@@ -29,7 +29,7 @@
 
 <%= render :partial => 'shared/wallpaper_list', :locals => { :infinite => false, :wallpapers => @wallpapers } %>
 
-<% if @wallpapers_count > 12 %>
+<% if @tag.wallpapers_count > @wallpapers.size %>
 
 <div style="text-align: center">
 

@@ -9,23 +9,10 @@ class Tag < ActiveRecord::Base
   has_one :alias_of, class_name: 'Tag', foreign_key: 'id', primary_key: 'alias_of_id'
   has_one :background_wallpaper, class_name: 'Wallpaper', foreign_key: 'id', primary_key: 'wallpaper_id'
 
-  def self.wallpapers_count(tagsIds)
-
-    if tagsIds.blank?
-      return {}
-    end
-
-    query = 'SELECT tag_id, COUNT(1) res FROM tags_wallpapers WHERE tag_id IN (' + tagsIds.join(',') + ') GROUP BY tag_id'
-    res = self.connection.select_all(query)
-
-    countData = {}
-
-    res.each do |r|
-      countData[r['tag_id']] = r['res']
-    end
-
-    return countData
-
+  def update_wallpapers_count
+    nb_wallpapers = Tag.joins(:wallpapers).where(:id =>  self.id).count
+    self.wallpapers_count = nb_wallpapers || 0
+    self.save
   end
 
   def self.list_ids_by_names(names)

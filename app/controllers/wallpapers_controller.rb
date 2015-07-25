@@ -5,8 +5,7 @@ class WallpapersController < ApplicationController
   end
 
   def show
-    @wall = Wallpaper.find(params[:id])
-    @tagCount = Tag.wallpapers_count @wall.tags.ids
+    @wall = Wallpaper.find params[:id]
   end
 
   def edit
