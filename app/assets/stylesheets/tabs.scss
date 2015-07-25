@@ -1,0 +1,63 @@
+$header-box-bg-hover: rgb(46, 125, 50);
+
+.tabs {
+  position: relative;
+  margin: 0;
+
+  &.card {
+    padding: 0 0 10px 0;
+  }
+
+  nav {
+    padding-top: 10px;
+    ul {
+      position: relative;
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+
+      background-color: #555;
+
+      li {
+        display: block;
+        margin: 0 10px;
+        text-align: center;
+
+        a {
+          position: relative;
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          line-height: 2em;
+
+          transition: color 0.2s ease 0s;
+
+          padding: 0px 0.5em 0px 0.3em;
+          color: #FFF;
+
+          &:hover {
+            text-decoration: none;
+            background-color: $header-box-bg-hover;
+          }
+
+          &.active {
+            color: #000;
+            background-color: #FFF;
+
+            box-shadow: 0px 0px  #FFF;
+          }
+        }
+      }
+    }
+  }
+
+  .tabs-pane {
+    background-color: #FFF;
+    padding: 10px;
+    position: relative;
+  }
+}

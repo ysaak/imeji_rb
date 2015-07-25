@@ -77,7 +77,7 @@ $(document).ready(function() {
     $('a[data-toggle="tab"]').on('click', function() {
 
         // Remove active class on all anchor tags
-        $('a', $(this).parent()).each(function() {
+        $('a', $(this).parent().parent()).each(function() {
             $(this).removeClass('active');
         });
 

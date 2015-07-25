@@ -40,32 +40,33 @@
 
 <div id="set-header-bg-modal" title="Edit header background" data-width="500px" style="display: none">
 
-  <nav>
-    <ul>
-      <li><a href="#te-gene-data" data-toggle="tab" class="active">General data</a></li>
-      <li><a href="#te-head-bg" data-toggle="tab">Header background</a></li>
-      <li><a href="#te-delete" data-toggle="tab">Delete tag</a></li>
-    </ul>
-  </nav>
+  <div class="tabs">
+      <nav>
+        <ul>
+          <li><a href="#te-gene-data" data-toggle="tab" class="active">General data</a></li>
+          <li><a href="#te-head-bg" data-toggle="tab">Header background</a></li>
+          <li><a href="#te-delete" data-toggle="tab">Delete tag</a></li>
+        </ul>
+      </nav>
 
-  <div class="tabs-pane">
-    <section class="pane active" id="te-gene-data">
-      <%= render 'form' %>
-    </section>
+      <div class="tabs-pane">
+        <section class="pane active" id="te-gene-data">
+          <%= render 'form' %>
+        </section>
 
-    <section class="pane" id="te-head-bg">
-      <%= render 'edit_header_form' %>
-    </section>
+        <section class="pane" id="te-head-bg">
+          <%= render 'edit_header_form' %>
+        </section>
 
-    <section class="pane" id="te-delete">
+        <section class="pane" id="te-delete">
 
-      <p class="txtcenter">
-        <%= link_to 'Destroy', tag_path(@tag), method: :delete, data: { confirm: 'Are you sure?' } %>
-      </p>
+          <p class="txtcenter">
+            <%= link_to 'Destroy', tag_path(@tag), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </p>
 
-    </section>
+        </section>
+      </div>
   </div>
-
 
 
 
