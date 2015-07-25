@@ -65,16 +65,32 @@ aside#wall-nav {
     list-style: outside none none;
     padding: 0;
     margin: 0;
-  }
 
-  .taglist ul a {
-    display: block;
-    color: #FFF;
-    text-decoration: none;
-    padding: 5px;
-  }
-  .taglist ul a:hover {
-    background-color: rgba(70, 70, 70, 0.5);
+    li {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+
+      a:first-child {
+        width: auto;
+      }
+    }
+
+    a {
+      width: 100%;
+      display: block;
+      color: #FFF;
+      text-decoration: none;
+      padding: 5px;
+
+      &:hover {
+        background-color: rgba(70, 70, 70, 0.5);
+      }
+
+      & > span {
+        float: right;
+      }
+    }
   }
 
   .taglist ul a.character {
@@ -83,10 +99,6 @@ aside#wall-nav {
 
   .taglist ul a.title {
     color: #006699;
-  }
-
-  .taglist a>span {
-    float: right;
   }
 
   .datalist dl dt {

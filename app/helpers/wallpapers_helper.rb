@@ -74,7 +74,7 @@ module WallpapersHelper
       html = '<ul>'
 
       tags.each do |tag|
-        html += "<li>#{tag_link tag}</li>"
+        html += "<li>#{link_to '?', tag}#{tag_link tag}</li>"
       end
 
       html += '</ul>'
