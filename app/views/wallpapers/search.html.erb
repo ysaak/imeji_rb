@@ -1,8 +1,17 @@
+<h1>Wallpapers#search</h1>
+
+<% if @related_tags.present? %>
+    <div class="card mbm">
+      Maybe you meant: <%= tags_list(@related_tags, :inline) %>
+    </div>
+<% end %>
 
 <% if not @walls.blank? %>
 
 <%= render :partial => 'shared/wallpaper_list', :locals => { :infinite => true, :wallpapers => @walls } %>
 
 <% else %>
-    PAs de wallpaper trouve !!
+    <div class="card txtcenter">
+        No wallpaper found !
+    </div>
 <% end %>

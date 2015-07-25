@@ -1,15 +1,12 @@
 class WallpapersController < ApplicationController
 
   def index
-    @walls = Wallpaper.where('purity = :purity', :purity => 'SFW').order('rand()').limit(12)
+    @walls = Wallpaper.where(:purity => 'SFW').order('rand()').limit(12)
   end
 
   def show
     @wall = Wallpaper.find(params[:id])
-
-
-    tagIds = @wall.tags.ids
-    @tagCount = Tag.wallpapers_count(tagIds)
+    @tagCount = Tag.wallpapers_count @wall.tags.ids
   end
 
   def edit
@@ -78,14 +75,16 @@ class WallpapersController < ApplicationController
     end
 
     session[:last_search] = @queryString
-    urlQuery = QueryParser.new.parse_query(@queryString)
+    url_query = QueryParser.new.parse_query(@queryString)
 
     # Init vars
-    sqlQuery = []
-    joinQuery = []
-    qParams = {}
+    sql_query = []
+    join_query = []
+    query_params = {}
     @limit = 20
     page = 1
+
+    @related_tags = nil
 
     if params.has_key? :page
       page = params[:page].to_i
@@ -94,15 +93,15 @@ class WallpapersController < ApplicationController
       end
     end
 
-    if urlQuery[:tag_count] > 0
+    if url_query[:tag_count] > 0
 
 
       [:width, :height, :ratio, :score].each do |part|
 
-        if urlQuery.has_key? part
+        if url_query.has_key? part
 
           query = part.to_s + ' ';
-          case urlQuery[part][0]
+          case url_query[part][0]
             when :lte
               query += '<='
             when :lt
@@ -116,14 +115,14 @@ class WallpapersController < ApplicationController
           end
 
           query += ' :' + part.to_s
-          sqlQuery << query
-          qParams[part] = urlQuery[part][1]
+          sql_query << query
+          query_params[part] = url_query[part][1]
         end
       end
 
 
       [:purity, :purity_negated, :ext, :ext_negated].each do |part|
-        if urlQuery.has_key? part
+        if url_query.has_key? part
           if part.to_s.end_with? 'negated'
             key = part.to_s.partition('_')[0]
             op = '<>'
@@ -132,75 +131,70 @@ class WallpapersController < ApplicationController
             op = '='
           end
 
-          sqlQuery << "#{key} #{op} :#{part.to_s}"
-          qParams[part] = urlQuery[part]
+          sql_query << "#{key} #{op} :#{part.to_s}"
+          query_params[part] = url_query[part]
         end
       end
 
-      if urlQuery.has_key? :color
-        joinQuery << 'INNER JOIN colors ON wallpapers.id = colors.wallpaper_id'
-        sqlQuery << 'SQRT( POW( red - :qRed, 2 ) + POW( green - :qGreen, 2 ) + POW( blue - :qBlue, 2 ) ) <= 20'
+      if url_query.has_key? :color
+        join_query << 'INNER JOIN colors ON wallpapers.id = colors.wallpaper_id'
+        sql_query << 'SQRT( POW( red - :qRed, 2 ) + POW( green - :qGreen, 2 ) + POW( blue - :qBlue, 2 ) ) <= 20'
 
-        qParams[:qRed] = urlQuery[:color][0]
-        qParams[:qGreen] = urlQuery[:color][1]
-        qParams[:qBlue] = urlQuery[:color][2]
+        query_params[:qRed] = url_query[:color][0]
+        query_params[:qGreen] = url_query[:color][1]
+        query_params[:qBlue] = url_query[:color][2]
       end
 
 
-      if (not urlQuery[:tags][:related].blank?) or (not urlQuery[:tags][:exclude].blank?)
+      if (not url_query[:tags][:related].blank?) or (not url_query[:tags][:exclude].blank?)
+        if url_query[:tags][:related].present?
+          include_tag_ids = Tag.list_ids_by_names(url_query[:tags][:related]) || []
+          include_tag_ids << 0 if include_tag_ids.blank?
 
-        includeTagIds = []
-        excludeTagIds = []
-
-        tagQuery = 'name IN (?) OR EXISTS (SELECT 1 FROM tags alias WHERE tags.alias_of_id = alias.id AND alias.name IN (?)) OR EXISTS (SELECT 1 FROM tags alias WHERE alias.alias_of_id = tags.id AND alias.name IN (?))'
-
-        if not urlQuery[:tags][:related].blank?
-          #includeTagQuery = 'name IN (?) OR EXISTS (SELECT 1 FROM tags alias WHERE tags.alias_of_id = alias.id AND alias.name IN (?)) OR EXISTS (SELECT 1 FROM tags alias WHERE alias.alias_of_id = tags.id AND alias.name IN (?))'
-          includeTagIds = Tag.where(tagQuery, urlQuery[:tags][:related], urlQuery[:tags][:related], urlQuery[:tags][:related]).ids
-
-          includeTagIds << 0 if includeTagIds.blank?
+          join_query << 'INNER JOIN tags_wallpapers ON wallpaper_id = wallpapers.id'
+          sql_query << 'tag_id IN (:qIncTagIds)'
+          query_params[:qIncTagIds] = include_tag_ids
         end
 
-        if not urlQuery[:tags][:exclude].blank?
-          #excludeTagQuery = 'name NOT IN (?) AND NOT EXISTS (SELECT 1 FROM tags alias where alias.alias_of_id = tags.id AND alias.name IN (?)) AND NOT EXISTS (SELECT 1 FROM tags alias where tags.alias_of_id = alias.id AND alias.name IN (?))'
-          excludeTagIds =  Tag.where(tagQuery, urlQuery[:tags][:exclude], urlQuery[:tags][:exclude], urlQuery[:tags][:exclude]).ids
+        if url_query[:tags][:exclude].present?
+          exclude_tag_ids = Tag.list_ids_by_names(url_query[:tags][:exclude]) || []
+          exclude_tag_ids << 0 if exclude_tag_ids.blank?
 
-          excludeTagIds << 0 if excludeTagIds.blank?
+          sql_query << 'not exists (select 1 from tags_wallpapers tw2 where tw2.wallpaper_id = wallpapers.id and tag_id in (:qExcTagIds))'
+          query_params[:qExcTagIds] = exclude_tag_ids
         end
-
-        if not includeTagIds.blank?
-          joinQuery << 'INNER JOIN tags_wallpapers ON wallpaper_id = wallpapers.id'
-          sqlQuery << 'tag_id IN (:qIncTagIds)'
-          qParams[:qIncTagIds] = includeTagIds
-        end
-
-        if not excludeTagIds.blank?
-          sqlQuery << 'not exists (select 1 from tags_wallpapers tw2 where tw2.wallpaper_id = wallpapers.id and tag_id in (:qExcTagIds))'
-          qParams[:qExcTagIds] = excludeTagIds
-        end
-
       end
 
 
-      if urlQuery.has_key? :limit
-        @limit = urlQuery[:limit]
+      if url_query.has_key? :limit
+        @limit = url_query[:limit]
       end
 
-      if joinQuery.length > 0
-        @walls = Wallpaper.joins(joinQuery.join(' ')).distinct.where(sqlQuery.join(' AND '), qParams).limit(@limit).offset( (page-1) * @limit )
+      if join_query.length > 0 then
+        @walls = Wallpaper.joins(join_query.join(' ')).distinct.where(sql_query.join(' AND '), query_params).limit(@limit).offset((page-1) * @limit)
       else
-        @walls = Wallpaper.where(sqlQuery.join(' AND '), qParams).limit(@limit).offset( (page-1) * @limit )
+        @walls = Wallpaper.where(sql_query.join(' AND '), query_params).limit(@limit).offset((page-1) * @limit)
       end
+
+
+      if @walls.blank? and (url_query[:tags][:related].present? and url_query[:tags][:related].size == 1)
+        @related_tags = Tag.contains_word url_query[:tags][:related][0]
+
+        if @related_tags.present?
+          @related_tags = @related_tags.to_a
+        end
+      end
+
     else
-      if urlQuery.has_key? :limit
-        @limit = urlQuery[:limit]
+      if url_query.has_key? :limit
+        @limit = url_query[:limit]
       end
 
       @walls = Wallpaper.all.limit(@limit).offset( (page-1) * @limit )
     end
 
     if request.xhr?
-      render jbuilder: @walls;
+      render jbuilder: @walls
       return
     end
   end

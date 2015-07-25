@@ -36,4 +36,54 @@ module WallpapersHelper
       return '#FFF'
     end
   end
+
+
+  def tags_list(tags, mode=:ul)
+    if mode == :inline
+      tags_list_inline tags
+    else
+      tags_list_ul tags
+    end
+  end
+
+
+  private
+    def tags_list_inline(tags)
+
+      list = tags || []
+
+      if list.blank?
+        ''
+      else
+        last = list.pop
+
+        html = list.map{ |tag| tag_link tag }.join ', '
+
+        if html.blank?
+          html = tag_link last
+        else
+          html = "#{html} or #{tag_link last}"
+        end
+
+        html.html_safe
+      end
+    end
+
+    def tags_list_ul(tags)
+
+      html = '<ul>'
+
+      tags.each do |tag|
+        html += "<li>#{tag_link tag}</li>"
+      end
+
+      html += '</ul>'
+
+      html.html_safe
+
+    end
+
+    def tag_link(tag)
+      link_to tag.name, search_path(:q => tag.name)
+    end
 end

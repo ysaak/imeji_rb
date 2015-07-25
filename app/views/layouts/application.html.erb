@@ -16,7 +16,7 @@
       <nav>
         <ul>
           <li><a href="<%= url_for :root %>" class=""><i class="fa fa-home fa-fw"></i></a></li>
-          <li><%= form_tag :search, :method => 'get', :id => 'app_search' do %>
+          <li><%= form_tag :search, :method => 'get', :id => 'app_search', :enforce_utf8 => false do %>
             <label for="search"><i class="fa fa-search fa-fw"></i></label><!--
             --><%= text_field_tag :q, @queryString, :id => 'search', :placeholder => 'Rechercher', :autocomplete => 'off' %>
             <button type="submit" style="display: none"><i class="fa fa-search fa-fw"></i></button>

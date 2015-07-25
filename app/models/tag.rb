@@ -27,4 +27,15 @@ class Tag < ActiveRecord::Base
     return countData
 
   end
+
+  def self.list_ids_by_names(names)
+    Tag.where(LIST_IDS_BY_NAME_QUERY, names, names, names).ids
+  end
+
+  def self.contains_word(word)
+    where('name LIKE :word', {:word => "%#{word}%"}).order(:name)
+  end
+
+  private
+    LIST_IDS_BY_NAME_QUERY = 'name IN (?) OR EXISTS (SELECT 1 FROM tags alias WHERE tags.alias_of_id = alias.id AND alias.name IN (?)) OR EXISTS (SELECT 1 FROM tags alias WHERE alias.alias_of_id = tags.id AND alias.name IN (?))'
 end
