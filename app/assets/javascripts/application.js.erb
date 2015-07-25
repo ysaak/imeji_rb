@@ -23,25 +23,6 @@
 
 $(document).ready(function() {
 
-
-    $('#app_search').each(function() {
-        var $search = $('#search');
-
-        /* Set active state on label when input has focus */
-        var $label = $('label', this);
-        $search.focus(function() {
-            $label.addClass('active')
-        }).blur(function() {
-            $label.removeClass('active')
-        });
-
-        /* Remove trailing white spaces on form submit */
-        $(this).on('submit', function() {
-            $search.val($search.val().trim());
-            return true;
-        });
-    });
-
     var tagSearchPath = '<%= Rails.application.routes.url_helpers.tags_search_path %>';
 
     function split( val ) {
@@ -88,12 +69,12 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $('*[data-toggle="display"]').on('click', function() {
-       var target = $(this).data('target');
+        var target = $(this).data('target');
         $('#'+target).toggle()
+        return false;
     });
 
-    $('a[data-toggle="tab"]').on('click', function(event) {
-        event.preventDefault();
+    $('a[data-toggle="tab"]').on('click', function() {
 
         // Remove active class on all anchor tags
         $('a', $(this).parent()).each(function() {
@@ -110,11 +91,11 @@ $(document).ready(function() {
         });
 
         $target.addClass('active');
+
+        return false;
     });
 
-    $('a[data-toggle="modal"]').on('click', function(event) {
-        event.preventDefault();
-
+    $('a[data-toggle="modal"]').on('click', function() {
         var target = $(this).attr('href');
         var $target = $(target);
 
@@ -130,6 +111,8 @@ $(document).ready(function() {
         }
 
         $target.dialog(options);
-    })
+
+        return false;
+    });
 });
 

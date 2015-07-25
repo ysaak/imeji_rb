@@ -12,29 +12,31 @@
   </head>
 
   <body>
-
     <header id="header" role="banner">
-      <ul>
-        <li><a href="<%= url_for :root %>" class=""><i class="fa fa-home fa-fw"></i></a></li>
-        <li>
-      <%= form_tag :search, :method => 'get', :id => 'app_search' do %>
-        <label for="search"><i class="fa fa-search fa-fw"></i></label><!--
-        --><%= text_field_tag :q, @queryString, :id => 'search', :placeholder => 'Rechercher', :autocomplete => 'off' %>
-        <button type="submit" style="display: none"><i class="fa fa-search fa-fw"></i></button>
+      <nav>
+        <ul>
+          <li><a href="<%= url_for :root %>" class=""><i class="fa fa-home fa-fw"></i></a></li>
+          <li><%= form_tag :search, :method => 'get', :id => 'app_search' do %>
+            <label for="search"><i class="fa fa-search fa-fw"></i></label><!--
+            --><%= text_field_tag :q, @queryString, :id => 'search', :placeholder => 'Rechercher', :autocomplete => 'off' %>
+            <button type="submit" style="display: none"><i class="fa fa-search fa-fw"></i></button>
+            <% end %></li>
+          <li><%= link_to raw('<i class="fa fa-tags fa-fw"></i>'), tags_path %></li>
+          <li><a href="#head-admin" data-toggle="header-submenu"><i class="fa fa-wrench fa-fw"></i></a></li>
 
-      <% end %></li>
-        <li data-toggle="header-drop">
-          <a href="#"><i class="fa fa-cogs fa-fw"></i></a>
-          <ul>
-            <li><a href="<%= url_for :admin_import_wallpaper %>">Import</a></li>
-            <li class="separator"></li>
-            <li><%= link_to 'Tags', tags_path %></li>
-            <li><a href="<%= url_for :search_untagged %>">Untagged</a></li>
-            <li class="separator"></li>
-            <li><%= link_to 'Groups', admin_groups_path %></li>
-          </ul>
-        </li>
-      </ul>
+        </ul>
+      </nav>
+      <div id="head-admin" class="header-sub">
+        <div class="header-subtitle">Tools</div>
+        <nav>
+        <ul>
+          <li><a href="<%= url_for :admin_import_wallpaper %>" title="Import"><i class="fa fa-upload fa-fw"></i></a></li>
+          <li><a href="<%= url_for :search_untagged %>" title="Untagged"><i class="fa fa-ban fa-fw"></i></a></li>
+          <li><a href="<%= url_for admin_groups_path %>" title="Groups"><i class="fa fa-th-list fa-fw"></i></a></li>
+          <li class="spacer"></li>
+        </ul>
+        </nav>
+      </div>
     </header>
 
     <div id="main" role="main">

@@ -6,152 +6,91 @@ $header-green: #56a14b;
 #header {
   position: fixed;
   top: 0;
-  //left: 0;
   right: 20px;
-  //width: 100%;
-  height: 40px;
 
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  z-index: 800;
 
   padding: 5px 5px;
-  z-index: 800;
 
   color: #FFF;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 0 0 3px 3px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 
-  &>ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  transition: all 0.2s ease 0s;
 
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-end;
+  nav {
+    display: block;
 
-    li+li {
-      margin-left: 10px;
-    }
 
-    &>li {
-      display: inline-block;
-      position: relative;
-      /*margin: 0 0 0 10px;*/
+
+    ul {
+      list-style: none;
+      margin: 0;
       padding: 0;
 
-      &>a, form label {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-end;
+
+      li + li {
+        margin-left: 10px;
+      }
+
+      & > li {
         display: inline-block;
-        color: #FFF;
-        background-color: rgba(0, 0, 0, 0.5);
-        font-size: 1.2em !important;
-        width: 40px;
-        height: 30px;
+        position: relative;
+        /*margin: 0 0 0 10px;*/
+        padding: 0;
 
-        line-height: 1.5em;
-
-        border-radius: 3px;
-        text-align: center;
-
-        padding: 4px 0;
-
-
-        & > i {
-          font-size: 1.3em !important;
+        &.spacer {
+          width: 40px;
         }
 
-        &:hover, &.active {
-          color: rgba(255, 255, 255, 1);
-          background-color: $header-box-bg-hover;
-          box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        & > a, form label {
+          display: inline-block;
+          color: #FFF;
+          background-color: rgba(0, 0, 0, 0.5);
+          font-size: 1.2em !important;
+          width: 40px;
+          height: 30px;
+
+          line-height: 1.5em;
+
+          border-radius: 3px;
+          text-align: center;
+
+          padding: 4px 0;
+
+          & > i {
+            font-size: 1.3em !important;
+          }
+
+          &:hover, &.active {
+            color: rgba(255, 255, 255, 1);
+            background-color: $header-box-bg-hover;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+          }
         }
-      }
-    }
-
-    li[data-toggle='header-drop'] > ul {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      margin-top: 10px;
-      list-style: none;
-
-      color: #FFF;
-      background-color: rgba(0, 0, 0, 0.5);
-
-      width: 200px;
-      border-radius: 3px;
-
-      display: none;
-      flex-flow: column;
-      justify-content: flex-start /*space-between*/;
-      padding: 4px 0;
-
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-
-      &:before {
-        content: ' ';
-        border: 10px solid transparent;
-        border-bottom: 10px solid rgba(0, 0, 0, 0.5);
-        position: absolute;
-        top: -20px;
-        right: 9px;
-        width: 0;
-        height: 0;
-      }
-      &:after {
-        content: ' ';
-        position: absolute;
-        background-color: rgba(0,0,0,0);
-        top: -10px;
-        right: 0;
-        width: 50px;
-        height: 10px;
-      }
-
-      li+li {
-        margin: 0;
-      }
-
-      li.separator {
-        height: 1px;
-        margin: 9px 0;
-        overflow: hidden;
-        background-color: #e5e5e5;
-      }
-
-      a {
-        display: block;
-        line-height: 1.5em;
-        height: 1.5em;
-
-        padding: 2px 5px;
-
-        color: #FFFFFF;
-
-        &:hover {
-          background: rgba(255, 255, 255, 0.7);
-          text-decoration: none;
-          color: #000000;
-        }
-      }
-    }
-
-    li[data-toggle='header-drop']:hover {
-
-      & > a {
-        color: rgba(255, 255, 255, 1);
-        background-color: $header-box-bg-hover;
-      }
-
-      & > ul {
-        display: flex;
       }
     }
   }
 
-  * {
+  .header-sub {
+    margin: 10px -5px 0 -5px;
+    border-top: 1px solid #434F5B;
+    padding: 5px 5px 0 5px;
+    display: none;
+
+    .header-subtitle {
+      font-variant: small-caps;
+      color: #434F5B;
+      font-weight: bold;
+    }
+  }
+
+
+  form *, ul * {
     transition: all 0.2s ease 0s;
   }
 
@@ -204,6 +143,17 @@ $header-green: #56a14b;
       display: none;
     }
   }
-
 }
+
+.header-overlay {
+  display:block;
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  z-index: 799;
+  background-color:rgba(0,0,0,0);
+}
+
 
