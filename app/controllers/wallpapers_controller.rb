@@ -5,7 +5,7 @@ class WallpapersController < ApplicationController
   end
 
   def show
-    @wall = Wallpaper.find params[:id]
+    @wall = Wallpaper.includes(:tags).find params[:id]
   end
 
   def edit
