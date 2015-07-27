@@ -56,7 +56,7 @@ class Admin::WallpapersController < ApplicationController
         height: imgData[:height],
 
         category: 'GENERAL',
-        purity: 'SFW'
+        rating: 'SKETCHY'
     })
 
     wall.save!
