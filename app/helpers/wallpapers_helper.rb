@@ -57,7 +57,7 @@ module WallpapersHelper
       else
         last = list.pop
 
-        html = list.map{ |tag| tag_link tag }.join ', '
+        html = list.map{ |tag| tag_link tag, false }.join ', '
 
         if html.blank?
           html = tag_link last
