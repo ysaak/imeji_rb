@@ -23,7 +23,6 @@
             <% end %></li>
           <li><%= link_to raw('<i class="fa fa-tags fa-fw"></i>'), tags_path %></li>
           <li><a href="#head-admin" data-toggle="header-submenu"><i class="fa fa-wrench fa-fw"></i></a></li>
-
         </ul>
       </nav>
       <div id="head-admin" class="header-sub">
@@ -32,7 +31,6 @@
         <ul>
           <li><a href="<%= url_for :admin_import_wallpaper %>" title="Import"><i class="fa fa-upload fa-fw"></i></a></li>
           <li><a href="<%= url_for :search_untagged %>" title="Untagged"><i class="fa fa-ban fa-fw"></i></a></li>
-          <li><a href="<%= url_for admin_groups_path %>" title="Groups"><i class="fa fa-th-list fa-fw"></i></a></li>
           <li class="spacer"></li>
         </ul>
         </nav>

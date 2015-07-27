@@ -11,65 +11,57 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725212613) do
+ActiveRecord::Schema.define(version: 20150727205611) do
 
-  create_table "colors", force: true do |t|
-    t.string   "red"
-    t.string   "green"
-    t.string   "blue"
+  create_table "colors", force: :cascade do |t|
+    t.string   "red",          limit: 255
+    t.string   "green",        limit: 255
+    t.string   "blue",         limit: 255
     t.float    "percent",      limit: 24
-    t.integer  "wallpaper_id"
+    t.integer  "wallpaper_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "colors", ["wallpaper_id"], name: "index_colors_on_wallpaper_id", using: :btree
 
-  create_table "groups", force: true do |t|
-    t.string  "name",      null: false
-    t.integer "parent_id"
-  end
-
-  add_index "groups", ["parent_id"], name: "index_groups_on_parent_id", using: :btree
-
-  create_table "parameters", id: false, force: true do |t|
-    t.string "name",  null: false
-    t.string "value", null: false
+  create_table "parameters", id: false, force: :cascade do |t|
+    t.string "name",  limit: 255, null: false
+    t.string "value", limit: 255, null: false
   end
 
   add_index "parameters", ["name"], name: "index_parameters_on_name", unique: true, using: :btree
 
-  create_table "tags", force: true do |t|
-    t.string   "name",                         null: false
-    t.integer  "alias_of_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "wallpaper_id"
-    t.string   "bg_x"
-    t.string   "bg_y"
-    t.integer  "group_id",         default: 1, null: false
-    t.integer  "wallpapers_count", default: 0, null: false
+  create_table "tags", force: :cascade do |t|
+    t.string   "name",             limit: 255,             null: false
+    t.integer  "alias_of_id",      limit: 4
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.integer  "wallpaper_id",     limit: 4
+    t.string   "bg_x",             limit: 255
+    t.string   "bg_y",             limit: 255
+    t.integer  "wallpapers_count", limit: 4,   default: 0, null: false
+    t.integer  "category",         limit: 4,   default: 0, null: false
   end
 
   add_index "tags", ["alias_of_id"], name: "index_tags_on_alias_of_id", using: :btree
-  add_index "tags", ["group_id"], name: "index_tags_on_group_id", using: :btree
 
-  create_table "tags_wallpapers", id: false, force: true do |t|
-    t.integer "tag_id",       null: false
-    t.integer "wallpaper_id", null: false
+  create_table "tags_wallpapers", id: false, force: :cascade do |t|
+    t.integer "tag_id",       limit: 4, null: false
+    t.integer "wallpaper_id", limit: 4, null: false
   end
 
   add_index "tags_wallpapers", ["tag_id"], name: "index_tags_wallpapers_on_tag_id", using: :btree
   add_index "tags_wallpapers", ["wallpaper_id"], name: "index_tags_wallpapers_on_wallpaper_id", using: :btree
 
-  create_table "wallpapers", force: true do |t|
-    t.string   "filehash"
-    t.string   "ext"
-    t.integer  "size"
-    t.integer  "width"
-    t.integer  "height"
-    t.string   "category"
-    t.string   "purity"
+  create_table "wallpapers", force: :cascade do |t|
+    t.string   "filehash",   limit: 255
+    t.string   "ext",        limit: 255
+    t.integer  "size",       limit: 4
+    t.integer  "width",      limit: 4
+    t.integer  "height",     limit: 4
+    t.string   "category",   limit: 255
+    t.string   "purity",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end

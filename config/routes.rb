@@ -15,13 +15,10 @@ Rails.application.routes.draw do
   post 'wallpaper/edit' => 'wallpapers#edit', as: :wallpaper_edit
 
   resources :tags, except: [:edit]
-  get 'tags/group/:gid' => 'tags#index', as: :tags_group
 
   namespace :admin do
     get 'wallpapers/import', as: :import_wallpaper
     post 'wallpapers/do_import', as: :do_import_wallpaper
-
-    resources :groups, except: [:show]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

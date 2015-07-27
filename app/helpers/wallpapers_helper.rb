@@ -87,6 +87,6 @@ module WallpapersHelper
       text = tag.name
       text += "<span>#{tag.wallpapers_count}</span>" if with_walls_count
 
-      link_to raw(text), search_path(:q => tag.name)
+      link_to raw(text), search_path(:q => tag.name), class: "tag-category-#{tag.category}"
     end
 end

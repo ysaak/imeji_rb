@@ -2,48 +2,28 @@
 
 <p class="mbs"><%= link_to 'New tag', new_tag_path, class: 'btn' %></p>
 
-<div id="tags_lister" class="card">
-  <section>
-    <h2>Categories</h2>
-    <ul>
-      <% @groups.each do |group| %>
-          <li<%= raw(' class="active"') if not @root_group.nil? and @root_group.id == group.id %>><%= link_to group.name, tags_group_path(group.id) %></li>
-      <% end %>
-    </ul>
-  </section>
 
-  <section>
-    <h2><%= @root_group.name unless @root_group.nil? %></h2>
-    <ul>
-      <% @sub_groups.each do |group| %>
-          <li<%= raw(' class="active"') if not @sub_group.nil? and @sub_group.id == group.id %>><%= link_to group.name, tags_group_path(group.id) %></li>
-      <% end %>
-    </ul>
-  </section>
-
-  <section>
-    <h2><%= tagslist_title(@root_group, @sub_group) %></h2>
-
-    <table class="table hover">
-      <col />
-      <col width="80" span="2">
-      <thead>
+<table class="table hover">
+  <col />
+  <col width="120">
+  <col width="80" span="2">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Category</th>
+    <th colspan="2">&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tags.each do |tag| %>
       <tr>
-        <th>Name</th>
-        <th colspan="2">&nbsp;</th>
+        <td><%= tag.name %></td>
+        <td><%= tag.category %></td>
+        <td class="action-cell"><%= link_to 'Show', tag_path(tag) %></td>
+        <td class="action-cell danger"><%= link_to 'Destroy', tag_path(tag),
+                                                   method: :delete,
+                                                   data: { confirm: 'Are you sure?' } %></td>
       </tr>
-      </thead>
-      <tbody>
-      <% @tags.each do |tag| %>
-          <tr>
-            <td><%= tag.name %></td>
-            <td class="action-cell"><%= link_to 'Show', tag_path(tag) %></td>
-            <td class="action-cell danger"><%= link_to 'Destroy', tag_path(tag),
-                                                       method: :delete,
-                                                       data: { confirm: 'Are you sure?' } %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </section>
-</div>
+  <% end %>
+  </tbody>
+</table>

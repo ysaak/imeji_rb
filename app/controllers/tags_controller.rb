@@ -1,31 +1,6 @@
 class TagsController < ApplicationController
   def index
-    @groups = Group.list_roots
-
-    @root_group = nil
-    @sub_group = nil
-
-    @sub_groups = []
-    gid = nil
-
-    if params.has_key? :gid
-
-      gid = params[:gid].to_i
-
-      @root_group = Group.find gid
-      if not @root_group.parent_id.nil?
-        @sub_group = @root_group
-        @root_group = @root_group.parent
-      end
-
-      @sub_groups = Group.where(:parent_id => @root_group.id).order(:name)
-    end
-
-    if gid.nil?
-      @tags = Tag.all.order(:name)
-    else
-      @tags = Tag.where(:group_id => gid).order(:name)
-    end
+    @tags = Tag.all.order(:name)
   end
 
   def show
@@ -83,6 +58,6 @@ class TagsController < ApplicationController
   private
 
     def tag_params
-      params.require(:tag).permit(:name, :type, :wallpaper_id, :bg_x, :bg_y)
+      params.require(:tag).permit(:name, :type, :wallpaper_id, :bg_x, :bg_y, :category)
     end
 end

@@ -3,11 +3,11 @@ class Tag < ActiveRecord::Base
 
   has_and_belongs_to_many :wallpapers, -> { order('rand()') }
 
-  belongs_to :group
-
   has_many :aliases, class_name: 'Tag', foreign_key: 'alias_of_id'
   has_one :alias_of, class_name: 'Tag', foreign_key: 'id', primary_key: 'alias_of_id'
   has_one :background_wallpaper, class_name: 'Wallpaper', foreign_key: 'id', primary_key: 'wallpaper_id'
+
+  enum category: [:general, :copyright, :character, :artist, :circle]
 
   def update_wallpapers_count
     nb_wallpapers = Tag.joins(:wallpapers).where(:id =>  self.id).count
