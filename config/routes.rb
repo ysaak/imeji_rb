@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  get 'help' => 'help_pages#home', as: :help_home
-  get 'help/search' => 'help_pages#search', as: :help_search
+  get 'help' => 'help#index', as: :help_index
+  get 'help/:action' => 'help#:action', as: :help
 
   get 'welcome/index'
   get 'init' => 'welcome#init'
