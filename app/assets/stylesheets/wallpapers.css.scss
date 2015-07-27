@@ -93,14 +93,6 @@ aside#wall-nav {
     }
   }
 
-  .taglist ul a.character {
-    color: #008000;
-  }
-
-  .taglist ul a.title {
-    color: #006699;
-  }
-
   .datalist dl dt {
     float: left;
     text-align: right;
@@ -124,7 +116,7 @@ aside#wall-nav {
       flex-flow: wrap;
       justify-content: space-around;
 
-      .rating, .category {
+      .rating {
         border-radius: 4px;
         width: 84px;
 
@@ -134,9 +126,7 @@ aside#wall-nav {
         display: inline-block;
         margin: 5px 3px;
         padding: 4px 5px;
-      }
 
-      .rating {
         &.rating-SFW {
           border: 1px solid rgb(46, 125, 50);
           background-color: rgba(46, 125, 50, 0.8); // Gradient ?
@@ -149,11 +139,6 @@ aside#wall-nav {
           border: 1px solid rgb(239, 74, 58);
           background-color: rgba(239, 74, 58, 0.8);
         }
-      }
-
-      .category {
-        border: 1px solid #85AAAF;
-        width: 120px;
       }
     }
 

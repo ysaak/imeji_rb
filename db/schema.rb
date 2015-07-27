@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727205611) do
+ActiveRecord::Schema.define(version: 20150727214835) do
 
   create_table "colors", force: :cascade do |t|
     t.string   "red",          limit: 255
@@ -60,8 +60,7 @@ ActiveRecord::Schema.define(version: 20150727205611) do
     t.integer  "size",       limit: 4
     t.integer  "width",      limit: 4
     t.integer  "height",     limit: 4
-    t.string   "category",   limit: 255
-    t.string   "purity",     limit: 255
+    t.string   "rating",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end

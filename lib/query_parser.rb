@@ -1,10 +1,10 @@
 class QueryParser
-  METATAGS = 'md5|-rating|rating|width|height|ratio|score|order|limit|tagcount|file_type|-file_type|color'
+  METATAGS = 'md5|-rating|rating|width|height|ratio|order|limit|ext|-ext|color'
 
   def parse_query(query)
 
     q = {}
-    q[:tag_count] = 0;
+    q[:tag_count] = 0
 
     q[:tags] = {
         :related => [],
@@ -27,10 +27,10 @@ class QueryParser
             q[:md5] = $2.downcase.split(/,/)
 
           when '-rating'
-            q[:purity_negated] = $2.upcase
+            q[:rating_negated] = $2.upcase
 
           when 'rating'
-            q[:purity] = $2.upcase
+            q[:rating] = $2.upcase
 
           when 'width'
             q[:width] = parse_helper($2)
@@ -41,22 +41,16 @@ class QueryParser
           when 'ratio'
             q[:ratio] = parse_helper($2, :ratio)
 
-          when 'score'
-            q[:score] = parse_helper($2)
-
-          when 'tagcount'
-            q[:post_tag_count] = parse_helper($2)
-
           when 'order'
             q[:order] = $2.downcase
 
           when 'limit'
             q[:limit] = $2.to_i
 
-          when 'file_type'
+          when 'ext'
             q[:ext] = $2.downcase
 
-          when '-file_type'
+          when '-ext'
             q[:ext_negated] = $2.downcase
 
           when 'color'
@@ -68,13 +62,13 @@ class QueryParser
 
     end
 
-    return q
+    q
   end
 
   private
 
   def scan_query(query)
-    return query.gsub(/\s+/m, ' ').gsub(/^\s+|\s+$/m, '').split(' ')
+    return query.to_s.downcase.gsub(/\s+/m, ' ').gsub(/^\s+|\s+$/m, '').split(' ')
   end
 
   def parse_cast(object, type)

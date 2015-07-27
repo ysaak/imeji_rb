@@ -1,7 +1,7 @@
 class WallpapersController < ApplicationController
 
   def index
-    @walls = Wallpaper.where(:purity => 'SFW').order('rand()').limit(12)
+    @walls = Wallpaper.where(:rating => 'SFW').order('rand()').limit(12)
   end
 
   def show
@@ -50,9 +50,9 @@ class WallpapersController < ApplicationController
 
       end
 
-      # Purity
-      if edit_query.has_key? :purity and %w(SFW NSFW SKETCHY).include? edit_query[:purity]
-        @wallpaper.purity = edit_query[:purity]
+      # Rating
+      if edit_query.has_key? :rating and %w(SFW NSFW SKETCHY).include? edit_query[:rating]
+        @wallpaper.rating = edit_query[:rating]
       end
 
 
@@ -119,7 +119,7 @@ class WallpapersController < ApplicationController
       end
 
 
-      [:purity, :purity_negated, :ext, :ext_negated].each do |part|
+      [:rating, :rating_negated, :ext, :ext_negated].each do |part|
         if url_query.has_key? part
           if part.to_s.end_with? 'negated'
             key = part.to_s.partition('_')[0]
