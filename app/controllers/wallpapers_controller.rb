@@ -12,38 +12,37 @@ class WallpapersController < ApplicationController
 
     @wallpaper = Wallpaper.find(params[:id])
 
-    editQuery = QueryParser.new.parse_query(params[:edqu])
+    edit_query = QueryParser.new.parse_query(params[:edqu])
 
-    if editQuery[:tag_count] > 0
+    if edit_query[:tag_count] > 0
 
       # Add tags
-      if not editQuery[:tags][:related].blank?
+      if edit_query[:tags][:related].present?
 
-        initTagsList = editQuery[:tags][:related]
-        tags = Tag.where :name => editQuery[:tags][:related]
+        init_tags_list = edit_query[:tags][:related]
+        tags = Tag.where :name => edit_query[:tags][:related]
 
         tags.each do |tag|
           @wallpaper.tags << tag
 
           # Remove tag from request list
-          initTagsList.delete tag.name
+          init_tags_list.delete tag.name
         end
 
         # Create non existing tags
-        initTagsList.each do |newTagName|
+        init_tags_list.each do |newTagName|
 
+          new_tag = Tag.new :name => newTagName
+          new_tag.save!
 
-          newTag = Tag.new :name => newTagName
-          newTag.save!
-
-          @wallpaper.tags << newTag
+          @wallpaper.tags << new_tag
         end
       end
 
       # Remove tags
-      if not editQuery[:tags][:exclude].blank?
+      if edit_query[:tags][:exclude].present?
 
-        tags = Tag.where :name => editQuery[:tags][:exclude]
+        tags = Tag.find_by_name edit_query[:tags][:exclude]
 
         tags.each do |tag|
           @wallpaper.tags.delete tag
@@ -52,8 +51,8 @@ class WallpapersController < ApplicationController
       end
 
       # Purity
-      if editQuery.has_key? :purity and ['SFW', 'NSFW', 'SKETCHY'].include? editQuery[:purity]
-        @wallpaper.purity = editQuery[:purity]
+      if edit_query.has_key? :purity and %w(SFW NSFW SKETCHY).include? edit_query[:purity]
+        @wallpaper.purity = edit_query[:purity]
       end
 
 
@@ -62,7 +61,7 @@ class WallpapersController < ApplicationController
       @wallpaper.save!
     end
 
-    redirect_to wallpaper_path(@wallpaper)
+    redirect_to @wallpaper
   end
 
   def search
@@ -169,7 +168,7 @@ class WallpapersController < ApplicationController
         @limit = url_query[:limit]
       end
 
-      if join_query.length > 0 then
+      if join_query.length > 0
         @walls = Wallpaper.joins(join_query.join(' ')).distinct.where(sql_query.join(' AND '), query_params).limit(@limit).offset((page-1) * @limit)
       else
         @walls = Wallpaper.where(sql_query.join(' AND '), query_params).limit(@limit).offset((page-1) * @limit)
