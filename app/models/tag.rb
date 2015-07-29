@@ -62,15 +62,16 @@ class Tag < ActiveRecord::Base
     LIST_IDS_BY_NAME_QUERY = 'name IN (?) OR EXISTS (SELECT 1 FROM tags alias WHERE tags.alias_of_id = alias.id AND alias.name IN (?)) OR EXISTS (SELECT 1 FROM tags alias WHERE alias.alias_of_id = tags.id AND alias.name IN (?))'
 
     def self.list_implied_tags(tag)
-      return [] if tag.blank? or tag.implied_tags.blank?
 
-      res = []
+    return [] if tag.blank? or (not tag.instance_of?(Tag)) or tag.implied_tags.blank?
 
-      tag.implied_tags.each do |tag|
-        res << tag
-        res.concat list_implied_tags(tag)
-      end
+    res = []
 
-      res
+    tag.implied_tags.each do |tag|
+      res << tag
+      res.concat list_implied_tags(tag)
     end
+
+    res
+  end
 end

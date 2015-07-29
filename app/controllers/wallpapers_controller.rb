@@ -17,48 +17,13 @@ class WallpapersController < ApplicationController
     if edit_query[:tag_count] > 0
 
       # Add tags
-      if edit_query[:tags][:related].present?
+      @wallpaper.update_tags_list edit_query[:tags][:related], edit_query[:tags][:exclude]
 
-        init_tags_list = edit_query[:tags][:related]
-        tags = Tag.list_with_implied edit_query[:tags][:related].map{|name| name.downcase}
-
-        tags.each do |tag|
-          if not @wallpaper.tags.include? tag
-            @wallpaper.tags << tag
-          end
-
-          # Remove tag from request list
-          init_tags_list.delete tag.name
-        end
-
-        # Create non existing tags
-        init_tags_list.each do |newTagName|
-
-          new_tag = Tag.new :name => newTagName
-          new_tag.save!
-
-          @wallpaper.tags << new_tag
-        end
-      end
-
-      # Remove tags
-      if edit_query[:tags][:exclude].present?
-
-        tags = Tag.where :name => edit_query[:tags][:exclude]
-
-        tags.each do |tag|
-          @wallpaper.tags.delete tag
-        end
-
-      end
 
       # Rating
       if edit_query.has_key? :rating and %w(SFW NSFW SKETCHY).include? edit_query[:rating]
         @wallpaper.rating = edit_query[:rating]
       end
-
-
-      # or (not urlQuery[:tags][:].blank?)
 
       @wallpaper.save!
     end
