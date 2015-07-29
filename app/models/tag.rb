@@ -1,6 +1,8 @@
 class Tag < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 3 }, uniqueness: true
 
+  before_validation :parse_name
+
   has_and_belongs_to_many :wallpapers, -> { order('rand()') }
 
   has_many :aliases, class_name: 'Tag', foreign_key: 'alias_of_id'
@@ -12,6 +14,21 @@ class Tag < ActiveRecord::Base
   has_many :implied_tags, :through => :implications
 
   enum category: [:general, :copyright, :character, :artist, :circle]
+
+  # Parse the name of the tag to extract cateogry if present
+  def parse_name
+    self.name.downcase.chomp! ':'
+
+    if self.name.include? ':'
+      parts = self.name.split(':')
+
+      if %w(copyright character artist circle).include? parts[0]
+        self.category = parts[0].to_sym
+      end
+
+      self.name = parts[1]
+    end
+  end
 
   def update_wallpapers_count
     nb_wallpapers = Tag.joins(:wallpapers).where(:id =>  self.id).count
