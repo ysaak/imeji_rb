@@ -20,10 +20,12 @@ class WallpapersController < ApplicationController
       if edit_query[:tags][:related].present?
 
         init_tags_list = edit_query[:tags][:related]
-        tags = Tag.where :name => edit_query[:tags][:related]
+        tags = Tag.list_with_implied edit_query[:tags][:related].map{|name| name.downcase}
 
         tags.each do |tag|
-          @wallpaper.tags << tag
+          if not @wallpaper.tags.include? tag
+            @wallpaper.tags << tag
+          end
 
           # Remove tag from request list
           init_tags_list.delete tag.name
@@ -42,7 +44,7 @@ class WallpapersController < ApplicationController
       # Remove tags
       if edit_query[:tags][:exclude].present?
 
-        tags = Tag.find_by_name edit_query[:tags][:exclude]
+        tags = Tag.where :name => edit_query[:tags][:exclude]
 
         tags.each do |tag|
           @wallpaper.tags.delete tag

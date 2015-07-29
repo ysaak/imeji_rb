@@ -7,6 +7,10 @@ class Tag < ActiveRecord::Base
   has_one :alias_of, class_name: 'Tag', foreign_key: 'id', primary_key: 'alias_of_id'
   has_one :background_wallpaper, class_name: 'Wallpaper', foreign_key: 'id', primary_key: 'wallpaper_id'
 
+
+  has_many :implications, class_name: 'TagImplication'
+  has_many :implied_tags, :through => :implications
+
   enum category: [:general, :copyright, :character, :artist, :circle]
 
   def update_wallpapers_count
@@ -23,6 +27,33 @@ class Tag < ActiveRecord::Base
     where('name LIKE :word', {:word => "%#{word}%"}).order(:name)
   end
 
+  def self.list_with_implied(names)
+    return [] if names.blank?
+
+    tags = where :name => names
+    res = []
+
+    tags.each do |tag|
+      res << tag
+      res.concat list_implied_tags(tag)
+    end
+
+    res
+  end
+
   private
     LIST_IDS_BY_NAME_QUERY = 'name IN (?) OR EXISTS (SELECT 1 FROM tags alias WHERE tags.alias_of_id = alias.id AND alias.name IN (?)) OR EXISTS (SELECT 1 FROM tags alias WHERE alias.alias_of_id = tags.id AND alias.name IN (?))'
+
+    def self.list_implied_tags(tag)
+      return [] if tag.blank? or tag.implied_tags.blank?
+
+      res = []
+
+      tag.implied_tags.each do |tag|
+        res << tag
+        res.concat list_implied_tags(tag)
+      end
+
+      res
+    end
 end
