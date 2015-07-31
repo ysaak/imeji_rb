@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   post 'wallpaper/edit' => 'wallpapers#edit', as: :wallpaper_edit
 
-  resources :tags, except: [:edit]
+  resources :tags
 
   namespace :admin do
     get 'wallpapers/import', as: :import_wallpaper

@@ -123,3 +123,36 @@
   color: #333;
   border-bottom: 1px solid #e5e5e5;
 }
+
+
+/* Aligned Forms */
+.pure-form-aligned .pure-control-group {
+  margin-bottom: 0.5em;
+}
+.pure-form-aligned .pure-control-group label {
+  text-align: right;
+  display: inline-block;
+  vertical-align: middle;
+  width: 10em;
+  margin: 0 1em 0 0;
+}
+.pure-form-aligned .pure-controls {
+  margin: 1.5em 0 0 11em;
+}
+
+.pure-form .pure-control-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  & > * {
+    display: block;
+    flex-grow: 1;
+  }
+
+  & > *:first-child {
+    display: block;
+    flex-grow: 0;
+    width: 100px;
+  }
+}

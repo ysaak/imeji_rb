@@ -1,4 +1,4 @@
-<%= form_for @tag do |f| %>
+<%= form_for @tag, :html => { :class => 'pure-form' } do |f| %>
 
     <% if @tag.errors.any? %>
         <div id="error_explanation">
@@ -14,16 +14,49 @@
         </div>
     <% end %>
 
-    <p><%= f.label :name %><br>
-      <%= f.text_field :name %></p>
+    <fieldset>
 
-    <p><%= f.label :category %><br>
-      <%= f.radio_button :category, :general %> General
-      <%= f.radio_button :category, :copyright %> Copyright
-      <%= f.radio_button :category, :character %> Character
-      <%= f.radio_button :category, :artist %> Artist
-      <%= f.radio_button :category, :circle %> Circle
-    </p>
+      <div class="pure-control-group">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
 
-    <p><%= f.submit %></p>
+      <div class="pure-control-group">
+        <%= f.label :category %>
+        <ul class="unstyled list-inline">
+          <li><label class="pure-radio tag-category-general">
+            <%= f.radio_button :category, :general %> &nbsp;&nbsp; General
+          </label></li>
+          <li><label class="pure-radio tag-category-copyright">
+            <%= f.radio_button :category, :copyright %> &nbsp;&nbsp; Copyright
+          </label></li>
+          <li><label class="pure-radio tag-category-character">
+            <%= f.radio_button :category, :character %> &nbsp;&nbsp; Character
+          </label></li>
+          <li><label class="pure-radio tag-category-artist">
+            <%= f.radio_button :category, :artist %> &nbsp;&nbsp; Artist
+          </label></li>
+          <li><label class="pure-radio tag-category-circle">
+            <%= f.radio_button :category, :circle %> &nbsp;&nbsp; Circle
+          </label></li>
+        </ul>
+      </div>
+
+    <div class="pure-control-group">
+        <%= label_tag :implications %>
+        <div class="inbl">
+            <%= text_field_tag :implications, params[:implications], class: 'tag-autocomplete-field w100'  %></p>
+    <ul id="implied_tag_list">
+<% @tag.implied_tags.each do |tag| %>
+        <li><span class="tag-category-<%= tag.category %>"><%= tag.name %></span>
+        &nbsp;(<a href="#">remove</a>)</li>
+<% end %>
+    </ul>
+
+        </div>
+    </div>
+
+    </fieldset>
+
+    <p class="txtright"><%= f.submit class: 'btn btn-flat' %></p>
 <% end #form %>

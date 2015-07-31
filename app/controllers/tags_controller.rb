@@ -28,21 +28,27 @@ class TagsController < ApplicationController
     @tag = Tag.new(tag_params)
 
     if @tag.save
-      redirect_to @tag
+      redirect_to tags_path
     else
       render 'new'
     end
   end
 
   def edit
-    @tag = Tag.find(params[:id])
+    @tag = Tag.includes(:implied_tags).find(params[:id])
   end
 
   def update
     @tag = Tag.find(params[:id])
 
     if @tag.update(tag_params)
-      redirect_to @tag
+
+      # Handle implied_tags
+      edit_query = QueryParser.new.parse_query(params[:implications])
+      @tag.update_implied_tags edit_query[:tags][:related], edit_query[:tags][:exclude]
+      @tag.save!
+
+      redirect_to tags_path
     else
       render 'edit'
     end

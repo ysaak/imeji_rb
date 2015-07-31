@@ -13,6 +13,8 @@ class Tag < ActiveRecord::Base
   has_many :implications, class_name: 'TagImplication'
   has_many :implied_tags, :through => :implications
 
+  has_many :implied_by, class_name: 'TagImplication', foreign_key: 'implied_tag_id'
+
   enum category: [:general, :copyright, :character, :artist, :circle]
 
   # Parse the name of the tag to extract cateogry if present
@@ -36,13 +38,50 @@ class Tag < ActiveRecord::Base
     self.save
   end
 
+  def update_implied_tags(new_tags_names, tags_names_to_remove)
+    # Adding new tag
+    if new_tags_names.present?
+      new_tags_list = Tag.where :name => new_tags_names.map{|name| name.downcase}
+
+      new_tags_list.each do |tag|
+        self.implied_tags << tag unless self.implied_tags.include? tag and (tag.imply? self or tag.implication_of? self)
+      end
+    end
+
+    # Removing tags
+    if tags_names_to_remove.present?
+      tags_to_remove = Tag.where :name => tags_names_to_remove.map{|name| name.downcase}
+
+      tags_to_remove.each do |tag|
+        self.implied_tags.delete tag
+      end
+    end
+  end
+
+  def imply?(tag)
+    self.implied_tags.each do |i_tag|
+      return true if i_tag.id == tag.id or i_tag.imply? tag
+    end
+
+    false
+  end
+
+  def implication_of?(tag)
+    self.implied_by.each do |tag_impl|
+      return true if tag_impl.tag.id == tag.id or tag_impl.tag.implication_of? tag
+    end
+
+    false
+  end
+
   def self.list_ids_by_names(names)
     Tag.where(LIST_IDS_BY_NAME_QUERY, names, names, names).ids
   end
 
   def self.contains_word(word)
-    where('name LIKE :word', {:word => "%#{word}%"}).order(:name)
+    where('name LIKE :word', :word => "%#{word}%").order(:name)
   end
+
 
   def self.list_with_implied(names)
     return [] if names.blank?

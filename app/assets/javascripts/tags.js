@@ -39,4 +39,14 @@ $(document).ready(function() {
 
     }
 
+
+    $('form #implied_tag_list a').on('click', function() {
+
+        var tag_name = $(this).siblings('span').html();
+
+        var $input = $('#implications');
+        $input.val(($input.val() + ' -' + tag_name).trim())
+
+        return false
+    })
 });

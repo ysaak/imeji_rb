@@ -79,3 +79,17 @@ a {
     }
   }
 }
+
+ul.list-inline {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  margin: 0;
+
+  li {
+    margin: 0 0.5em;
+    padding: 0;
+  }
+}
