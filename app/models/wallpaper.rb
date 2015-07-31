@@ -34,9 +34,9 @@ class Wallpaper < ActiveRecord::Base
       end
 
       # Any unkown tag name
-      #init_names_list.each do |tag_name|
-      #  tags << Tag.create(:name => tag_name)
-      #end
+      init_names_list.each do |tag_name|
+        tags << Tag.create(:name => tag_name)
+      end
     end
 
     # Removing tags
